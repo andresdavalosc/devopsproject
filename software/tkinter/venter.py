@@ -2,11 +2,15 @@ import tkinter as tk
 from time import sleep
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
+import tkinter.font as tkFont
+
+
+
 
 message = " "
 player = 0
 def Collision(obj):
-    kader.delete(obj)
+      kader.delete(obj)
     
 def BeweegKar():
         global kar_speed
@@ -88,8 +92,8 @@ wcrol_speed=2
 wcrol_move_right = True
 virus_speed=-2
 virus_move_left = True
-w = 1000
-h = 800
+w = 1920
+h = 990
 tekst = tk.Label( venster, text = "Welcome to corona Game")
 tekst.pack()
 kader = tk.Canvas(venster, width = w, height = h, bg ="black")
@@ -104,34 +108,36 @@ virus = kader.create_image( 700, 80, anchor = tk.NW, image=fotovirus )
 
 
 def on_message(client, userdata, msg):
-    print(str(msg.payload))
-    global message,player
-    message = str(msg.payload)
-    if str(msg.payload) == "b'1'":
-        player = 1
-        BeweegVirus()
-        print(str(player))
-    elif str(msg.payload) == "b'2'":
-        player = 2
-        BeweegWcrol()
-    elif str(msg.payload) == "b'3'":
-        player = 3
-        BeweegKar()
-    elif player == 1:
-        print("ok")
-        coronavirus(str(msg.payload))
-    elif player == 2:
-        toiletrol(str(msg.payload))
-    elif player == 3:
-        karretje(str(msg.payload))
+      print(str(msg.payload))
+      global message,player
+      message = str(msg.payload)
+      if str(msg.payload) == "b'3'":
+          player = 1
+          BeweegVirus()
+          print(str(player))
+      elif str(msg.payload) == "b'1'":
+          print("erin")
+          player = 2
+          BeweegWcrol()
+      elif str(msg.payload) == "b'2'":
+          player = 3
+          BeweegKar()
+      elif player == 1:
+          print("ok")
+          coronavirus(str(msg.payload))
+      elif player == 2:
+          toiletrol(str(msg.payload))
+      elif player == 3:
+          karretje(str(msg.payload))
 
 
 client = mqtt.Client()
 client.on_message = on_message
 client.connect(host="anonymous10.ddns.net")
 client.subscribe("Desktop/project")
+client.subscribe("Desktop/venster2")
 client.loop_start()
 venster.mainloop()
-
+  
 
 
