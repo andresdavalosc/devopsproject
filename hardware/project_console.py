@@ -35,6 +35,8 @@ def Up(a):
         global begin,val,count
         if begin == True:
             begin = False
+            publish.single("Desktop/project1",payload= "start"+str(count), hostname="anonymous10.ddns.net")
+            sleep(1)
             publish.single("Desktop/project",payload= count, hostname="anonymous10.ddns.net")
         elif start == True:
             print("Up")
@@ -51,6 +53,8 @@ def Dn(a):
             count+=1
             if count > 3:
                 count = 1;
+            publish.single("Desktop/project1",payload= count, hostname="anonymous10.ddns.net")
+
         elif start == True:
             print("Dn")
             #val -=1
