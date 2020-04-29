@@ -8,10 +8,13 @@ import tkinter.font as tkFont
 
 
 message = " "
-player = 0
+player1=0
+player2=0
+player3=0
+score = 0
 def Collision(obj):
-      kader.delete(obj)
-    
+     kader.delete(obj)
+
 def BeweegKar():
         global kar_speed
         global kar_move_right
@@ -67,21 +70,21 @@ def BeweegVirus():
         venster.after(25, BeweegVirus)
 
 def coronavirus(message):
-      if message == "b'UP'":
+      if message == "b'3UP'":
           kader.move(virus, 0, -35)
-      if message == "b'DN'":
+      if message == "b'3DN'":
           kader.move(virus, 0, 35)
 
 def toiletrol(message):
-    if message == "b'UP'":
+    if message == "b'1UP'":
         kader.move(wcrol, 0, -35)
-    if message == "b'DN'":
+    if message == "b'1DN'":
         kader.move(wcrol, 0, 35)
 
 def karretje(message):
-    if message == "b'UP'":
+    if message == "b'2UP'":
         kader.move(car, 0, -35)
-    if message == "b'DN'":
+    if message == "b'2DN'":
         kader.move(car, 0, 35)
 
 
@@ -98,42 +101,35 @@ tekst = tk.Label( venster, text = "Welcome to corona Game")
 tekst.pack()
 kader = tk.Canvas(venster, width = w, height = h, bg ="black")
 kader.pack()
-foto = tk.PhotoImage( file = "wcrol.png" )
-wcrol = kader.create_image( 10, 50, anchor = tk.NW, image=foto )
+foto = tk.PhotoImage( file = "./img/wcrol.png" )
+wcrol = kader.create_image( 10, 250, anchor = tk.NW, image=foto )
 fotocar = tk.PhotoImage( file = "cart.png" )
 car = kader.create_image( 400, 200, anchor = tk.NW, image=fotocar )
-fotovirus = tk.PhotoImage( file = "virus.png" )
+fotovirus = tk.PhotoImage( file = "./img/virus.png" )
 virus = kader.create_image( 700, 80, anchor = tk.NW, image=fotovirus )
 scoreBoard = tk.Label(venster, text="Score: ", bg="black", fg="white", font=("Arial", 30))
 scoreBoard.pack()
 scoreBoard_w = kader.create_window(1700,50, window=scoreBoard)
-score = tk.Label(venster, text="0", bg="black", fg="white", font = ("Arial", 30))
+score = tk.Label(venster, text=str(score), bg="black", fg="white", font = ("Arial", 30))
 score.pack()
 score_w = kader.create_window(1790, 50, window=score)
 
-
+BeweegVirus()
+BeweegWcrol()
+BeweegKar()
 
 def on_message(client, userdata, msg):
       print(str(msg.payload))
-      global message,player
+      global message,player1,player2,player3
       message = str(msg.payload)
-      if str(msg.payload) == "b'3'":
-          player = 1
-          BeweegVirus()
-          print(str(player))
-      elif str(msg.payload) == "b'1'":
-          print("erin")
-          player = 2
-          BeweegWcrol()
-      elif str(msg.payload) == "b'2'":
-          player = 3
-          BeweegKar()
-      elif player == 1:
+      
+      if str(msg.payload) == "b'3UP'" or str(msg.payload) == "b'3DN'":
           print("ok")
           coronavirus(str(msg.payload))
-      elif player == 2:
+      elif str(msg.payload) == "b'1UP'" or str(msg.payload) == "b'1DN'":
+          print("erin")
           toiletrol(str(msg.payload))
-      elif player == 3:
+      elif str(msg.payload) == "b'2UP'" or str(msg.payload) == "b'2DN'":
           karretje(str(msg.payload))
 
 

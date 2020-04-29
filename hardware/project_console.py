@@ -36,14 +36,14 @@ def Up(a):
         if begin == True:
             begin = False
             publish.single("Desktop/project1",payload= "start"+str(count), hostname="anonymous10.ddns.net")
-            sleep(1)
+            sleep(3)
             publish.single("Desktop/project",payload= count, hostname="anonymous10.ddns.net")
         elif start == True:
             print("Up")
             #val +=1
-            publish.single("Desktop/project",payload= "UP" , hostname="anonymous10.ddns.net")
+            publish.single("Desktop/project",payload= repr(count) + "UP", hostname="anonymous10.ddns.net")
         sleep(1)
-
+        
 def Dn(a):
     if GPIO.event_detected(knop2):
         global begin,val
@@ -58,7 +58,7 @@ def Dn(a):
         elif start == True:
             print("Dn")
             #val -=1
-            publish.single("Desktop/project",payload= "DN", hostname="anonymous10.ddns.net")
+            publish.single("Desktop/project",payload= repr(count) + "DN", hostname="anonymous10.ddns.net")
         sleep(1)
 
 
