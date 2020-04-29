@@ -100,10 +100,16 @@ kader = tk.Canvas(venster, width = w, height = h, bg ="black")
 kader.pack()
 foto = tk.PhotoImage( file = "wcrol.png" )
 wcrol = kader.create_image( 10, 50, anchor = tk.NW, image=foto )
-fotocar = tk.PhotoImage( file = "car.png" )
+fotocar = tk.PhotoImage( file = "cart.png" )
 car = kader.create_image( 400, 200, anchor = tk.NW, image=fotocar )
 fotovirus = tk.PhotoImage( file = "virus.png" )
 virus = kader.create_image( 700, 80, anchor = tk.NW, image=fotovirus )
+scoreBoard = tk.Label(venster, text="Score: ", bg="black", fg="white", font=("Arial", 30))
+scoreBoard.pack()
+scoreBoard_w = kader.create_window(1700,50, window=scoreBoard)
+score = tk.Label(venster, text="0", bg="black", fg="white", font = ("Arial", 30))
+score.pack()
+score_w = kader.create_window(1790, 50, window=score)
 
 
 
