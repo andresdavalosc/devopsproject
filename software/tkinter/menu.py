@@ -3,8 +3,8 @@ import os
 import tkinter.font as tkFont
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
-
-a = True
+from threading import Thread
+a = False
 
 def main1():
     width = 1600
@@ -24,7 +24,7 @@ def main1():
     spelersKeuzeTxt_w = kader.create_window(710, 220, window=spelersKeuzeTxt)
 
     wcrolImg = tk.PhotoImage(file="./img/wcrol.png")
-    karImg = tk.PhotoImage(file="./img/car.png")
+    karImg = tk.PhotoImage(file="./img/cart.png")
     virusImg = tk.PhotoImage(file="./img/virus.png")
 
     playerNr = 0
@@ -48,37 +48,38 @@ def main1():
             wcrolBtn.configure(bg="black",width="200",height="200")
 
     def WcRol():
-            playerNr = 1
-            print("Je bent het toilet papier " + str(playerNr))
-            kader.create_rectangle(500, 400, 750, 450, fill='green')
-            kader.create_text((625, 425), text="Roll got picked and is ready to roll!")
-            wcrolBtn.configure(state="disabled")
-            print(playerNr)
-            return playerNr
+         playerNr = 1
+         print("Je bent het toilet papier " + str(playerNr))
+         kader.create_rectangle(500, 400, 750, 450, fill='green')
+         kader.create_text((625, 425), text="Roll got picked and is ready to roll!")
+         wcrolBtn.configure(state="disabled")
+         print(playerNr)
+         return playerNr
 
     def Kar():
-            playerNr = 2
-            print("Je bent het karretje " + str(playerNr))
-            kader.create_rectangle(755, 400, 1050, 450, fill='green')
-            kader.create_text((900, 425), text="Car got picked and is ready!")
-            karBtn.configure(state="disabled")
+         playerNr = 2
+         print("Je bent het karretje " + str(playerNr))
+         kader.create_rectangle(755, 400, 1050, 450, fill='green')
+         kader.create_text((900, 425), text="Car got picked and is ready!")
+         karBtn.configure(state="disabled")
 
     def Virus():
-            playerNr = 3
-            print("Je bent het virus " + str(playerNr))
-            kader.create_rectangle(1055, 400, 1303, 450, fill='green')
-            kader.create_text((1185, 425), text="Virus got picked and is ready!")
-            virusBtn.configure(state = "disabled")
+         playerNr = 3
+         print("Je bent het virus " + str(playerNr))
+         kader.create_rectangle(1055, 400, 1303, 450, fill='green')
+         kader.create_text((1185, 425), text="Virus got picked and is ready!")
+         virusBtn.configure(state = "disabled")
 
-    def countdown(count): 
-            label['text'] = 'Ready to play in ' + str(count)
-
-            if count > 0:
+    def countdown(count):
+         global a 
+         label['text'] = 'Ready to play in ' + str(count)
+         if count > 0:
         # call countdown again after 1000ms (1s)
-                menuvenster.after(1000, countdown, count-1)
-            if count == 0:
-                menuvenster.destroy()
-    
+             menuvenster.after(1000, countdown, count-1)
+         if count == 0:
+             os.system("python3 spel.py 1")
+             menuvenster.destroy()
+
     label = tk.Label(menuvenster)
     label.place(x=830, y=770)
 
@@ -94,12 +95,13 @@ def main1():
     virusBtn.pack()
     virusBtn_w = kader.create_window(1200, 570, window=virusBtn)
 
-    countdown(30)
+    countdown(10)
 
     def on_closing():
         global a
         a = False
         menuvenster.destroy()
+
     menuvenster.protocol("WM_DELETE_WINDOW", on_closing)
 
 
@@ -126,13 +128,20 @@ def main1():
     client = mqtt.Client()
     client.on_message = on_message
     client.connect(host="anonymous10.ddns.net")
-    client.subscribe("Desktop/project1")
+    client.subscribe("Hardware/console")
     client.loop_start()
 
     menuvenster.mainloop()
+def main2():
+  os.system("python3 /home/pi/Desktop/Raspi-project-game/hardware/project_console.py")
 
-main1()
-if a == True:
- os.system("python3 venter.py 1")
+job1 = Thread(target=main2)
+job2 = Thread(target=main1)
+
+job1.start()
+job2.start()
+#a = True
+#if a == True:
+ #os.system("python3 spel.py 1")
 
 

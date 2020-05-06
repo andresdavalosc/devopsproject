@@ -24,8 +24,8 @@ GPIO.setup(virus,GPIO.OUT,initial=GPIO.LOW)
 GPIO.setup(wcrol,GPIO.OUT,initial=GPIO.LOW)
 GPIO.setup(kar,GPIO.OUT,initial=GPIO.LOW)
 
-def on_connect(client, userdata, flags, rc):
-    client.subscribe("Desktop/project")
+#def on_connect(client, userdata, flags, rc):
+#    client.subscribe("Desktop/project")
 
 
 def Up(a):
@@ -33,12 +33,12 @@ def Up(a):
         global begin,count
         if begin == True:
             begin = False
-            publish.single("Desktop/project1",payload= "start"+str(count), hostname="anonymous10.ddns.net")
+            publish.single("Hardware/console",payload= "start"+str(count), hostname="anonymous10.ddns.net")
             sleep(3)
-            publish.single("Desktop/project",payload= count, hostname="anonymous10.ddns.net")
+            publish.single("Hardware/console/bediening",payload= count, hostname="anonymous10.ddns.net")
         elif start == True:
             print("Up")
-            publish.single("Desktop/project",payload= repr(count) + "UP", hostname="anonymous10.ddns.net")
+            publish.single("Hardware/console/bediening",payload= repr(count) + "UP", hostname="anonymous10.ddns.net")
         sleep(1)
         
 def Dn(a):
@@ -50,11 +50,11 @@ def Dn(a):
             count+=1
             if count > 3:
                 count = 1;
-            publish.single("Desktop/project1",payload= count, hostname="anonymous10.ddns.net")
+            publish.single("Hardware/console",payload= count, hostname="anonymous10.ddns.net")
 
         elif start == True:
             print("Dn")
-            publish.single("Desktop/project",payload= repr(count) + "DN", hostname="anonymous10.ddns.net")
+            publish.single("Hardware/console/bediening",payload= repr(count) + "DN", hostname="anonymous10.ddns.net")
         sleep(1)
 
 
@@ -95,7 +95,7 @@ try:
     GPIO.add_event_detect(knop1,GPIO.RISING,callback=Up)
     GPIO.add_event_detect(knop2,GPIO.RISING,callback=Dn)
     client = mqtt.Client()
-    client.on_connect = on_connect
+    #client.on_connect = on_connect
     client.connect(host="anonymous10.ddns.net")
     print("""welcome to the
                              ~~~~~CORONA GAME~~~~~
