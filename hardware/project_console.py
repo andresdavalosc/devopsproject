@@ -6,13 +6,11 @@ import paho.mqtt.publish as publish
 import sys
 from time import sleep
 
-val=0
 led = [10,9,11,5,6,13,19]
 virus = 22
 wcrol = 27
-car  = 17
+kar  = 17
 prevcount = 0
-#ab = False
 count = 1
 start = False
 begin = True
@@ -24,7 +22,7 @@ for x in led:
     GPIO.setup(x,GPIO.OUT,initial=GPIO.LOW)
 GPIO.setup(virus,GPIO.OUT,initial=GPIO.LOW)
 GPIO.setup(wcrol,GPIO.OUT,initial=GPIO.LOW)
-GPIO.setup(car,GPIO.OUT,initial=GPIO.LOW)
+GPIO.setup(kar,GPIO.OUT,initial=GPIO.LOW)
 
 def on_connect(client, userdata, flags, rc):
     client.subscribe("Desktop/project")
@@ -32,7 +30,7 @@ def on_connect(client, userdata, flags, rc):
 
 def Up(a):
     if GPIO.event_detected(knop1):
-        global begin,val,count
+        global begin,count
         if begin == True:
             begin = False
             publish.single("Desktop/project1",payload= "start"+str(count), hostname="anonymous10.ddns.net")
@@ -40,13 +38,12 @@ def Up(a):
             publish.single("Desktop/project",payload= count, hostname="anonymous10.ddns.net")
         elif start == True:
             print("Up")
-            #val +=1
             publish.single("Desktop/project",payload= repr(count) + "UP", hostname="anonymous10.ddns.net")
         sleep(1)
         
 def Dn(a):
     if GPIO.event_detected(knop2):
-        global begin,val
+        global begin,
         if begin == True:
             global count
             #print("gedrukt")
@@ -57,25 +54,29 @@ def Dn(a):
 
         elif start == True:
             print("Dn")
-            #val -=1
             publish.single("Desktop/project",payload= repr(count) + "DN", hostname="anonymous10.ddns.net")
         sleep(1)
 
 
 def nummereen():
   GPIO.output(wcrol,GPIO.LOW)
-  GPIO.output(car,GPIO.LOW)
+  GPIO.output(kar,GPIO.LOW)
   GPIO.output(virus,GPIO.HIGH)
-  GPIO.output(led[0],GPIO.LOW)
-  GPIO.output(led[1],GPIO.HIGH)
-  GPIO.output(led[2],GPIO.HIGH)
-  GPIO.output(led[3],GPIO.LOW)
-  GPIO.output(led[6],GPIO.LOW)
-  GPIO.output(led[4],GPIO.LOW)
+  for x in led:
+      if x == 2 and x == 3:
+          GPIO.output(led[x],GPIO.HIGH)
+      else:
+          GPIO.output(led[x], GPIO.LOW)
+  #GPIO.output(led[0],GPIO.LOW)
+  #GPIO.output(led[1],GPIO.HIGH)
+  #GPIO.output(led[2],GPIO.HIGH)
+  #GPIO.output(led[3],GPIO.LOW)
+  #GPIO.output(led[6],GPIO.LOW)
+  #GPIO.output(led[4],GPIO.LOW)
 
 def nummertwee():
   GPIO.output(virus,GPIO.LOW)
-  GPIO.output(car,GPIO.LOW)
+  GPIO.output(kar,GPIO.LOW)
   GPIO.output(wcrol,GPIO.HIGH)
   GPIO.output(led[0],GPIO.HIGH)
   GPIO.output(led[1],GPIO.HIGH)
@@ -87,7 +88,7 @@ def nummertwee():
 def nummerdrie():
   GPIO.output(virus,GPIO.LOW)
   GPIO.output(wcrol,GPIO.LOW)
-  GPIO.output(car,GPIO.HIGH)
+  GPIO.output(kar,GPIO.HIGH)
   GPIO.output(led[0],GPIO.HIGH)
   GPIO.output(led[1],GPIO.HIGH)
   GPIO.output(led[2],GPIO.HIGH)
@@ -110,7 +111,7 @@ try:
            (1)Virus  (2)toilet paper (3)shopping Car
                                                      """)
 
-    #begin = True
+    
     while begin == True:
        if count == prevcount:
            sys.stdout.flush()
