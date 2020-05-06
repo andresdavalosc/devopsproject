@@ -6,20 +6,15 @@ import tkinter.font as tkFont
 
 
 
-venster = tk.Tk()
+
 message = " "
 player1=0
 player2=0
 player3=0
 score = 0
-venster.counter = 0
 def Collision(obj):
-     global score
-     kader.delete(obj)
-     venster.counter += 1
-     publish.single("Desktop/score", payload=venster.counter, hostname="anonymous10.ddns.net")
-     score['text'] = str(venster.counter)
-     print(venster.counter)
+     global score     kader.delete(obj)
+
 def BeweegKar():
         global kar_speed
         global kar_move_right
@@ -92,6 +87,8 @@ def karretje(message):
     if message == "b'2DN'":
         kader.move(car, 0, 35)
 
+
+venster = tk.Tk()
 kar_speed=2
 kar_move_right = True
 wcrol_speed=2
@@ -113,9 +110,10 @@ virus = kader.create_image( 700, 80, anchor = tk.NW, image=fotovirus )
 scoreBoard = tk.Label(venster, text="Score: ", bg="black", fg="white", font=("Arial", 30))
 scoreBoard.pack()
 scoreBoard_w = kader.create_window(1700,50, window=scoreBoard)
-score = tk.Label(venster, text ='test', bg="black", fg="white", font=("Arial", 30))
+score = tk.Label(venster, text=str(score), bg="black", fg="white", font = ("Arial", 30))
 score.pack()
-score_w = kader.create_window(1780,50, window=score)
+score_w = kader.create_window(1790, 50, window=score)
+
 BeweegVirus()
 BeweegWcrol()
 BeweegKar()
@@ -133,8 +131,7 @@ def on_message(client, userdata, msg):
           toiletrol(str(msg.payload))
       elif str(msg.payload) == "b'2UP'" or str(msg.payload) == "b'2DN'":
           karretje(str(msg.payload))
-#      elif str(msg.payload) == "b'SCORE'"
- #         score(str(msg.payload))
+
 
 client = mqtt.Client()
 client.on_message = on_message
