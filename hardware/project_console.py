@@ -43,7 +43,7 @@ def Up(a):
         
 def Dn(a):
     if GPIO.event_detected(knop2):
-        global begin,
+        global begin
         if begin == True:
             global count
             #print("gedrukt")
@@ -62,40 +62,33 @@ def nummereen():
   GPIO.output(wcrol,GPIO.LOW)
   GPIO.output(kar,GPIO.LOW)
   GPIO.output(virus,GPIO.HIGH)
-  for x in led:
-      if x == 2 and x == 3:
+  for x in range(0,7):
+      if x == 1 or x == 2:
           GPIO.output(led[x],GPIO.HIGH)
       else:
           GPIO.output(led[x], GPIO.LOW)
-  #GPIO.output(led[0],GPIO.LOW)
-  #GPIO.output(led[1],GPIO.HIGH)
-  #GPIO.output(led[2],GPIO.HIGH)
-  #GPIO.output(led[3],GPIO.LOW)
-  #GPIO.output(led[6],GPIO.LOW)
-  #GPIO.output(led[4],GPIO.LOW)
 
 def nummertwee():
   GPIO.output(virus,GPIO.LOW)
   GPIO.output(kar,GPIO.LOW)
   GPIO.output(wcrol,GPIO.HIGH)
-  GPIO.output(led[0],GPIO.HIGH)
-  GPIO.output(led[1],GPIO.HIGH)
-  GPIO.output(led[3],GPIO.HIGH)
-  GPIO.output(led[4],GPIO.HIGH)
-  GPIO.output(led[6],GPIO.HIGH)
-  GPIO.output(led[2],GPIO.LOW)
+  for x in range(0,7):
+      if x == 2:
+         GPIO.output(led[x],GPIO.LOW)
+      else:
+         GPIO.output(led[x], GPIO.HIGH)
+
 
 def nummerdrie():
   GPIO.output(virus,GPIO.LOW)
   GPIO.output(wcrol,GPIO.LOW)
   GPIO.output(kar,GPIO.HIGH)
-  GPIO.output(led[0],GPIO.HIGH)
-  GPIO.output(led[1],GPIO.HIGH)
-  GPIO.output(led[2],GPIO.HIGH)
-  GPIO.output(led[3],GPIO.HIGH)
-  GPIO.output(led[6],GPIO.HIGH)
-  GPIO.output(led[4],GPIO.LOW)
 
+  for x in range(0,7):
+      if x == 4:
+         GPIO.output(led[x],GPIO.LOW)
+      else:
+         GPIO.output(led[x], GPIO.HIGH)
 
 try:
     os.system('clear')
