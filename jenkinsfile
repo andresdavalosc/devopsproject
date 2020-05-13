@@ -1,1 +1,10 @@
-
+pipeline {
+    agent { node { label 'NAAMVANSLAVEHIER' } } 
+    stages {
+        stage('test') {
+            steps {
+                sh "echo 'hello world' "
+            }
+        }
+    }
+}
