@@ -2,10 +2,10 @@ pipeline {
     agent { node { label 'raspberry pi' } } 
     stages {
         stage('test') {
-            
-            dir ("/home/pi/Desktop/jenkins_slave/workspace/Devops-project-rpi/hardware"){  
-                sh "pwd"
-                sh "python3 project_console.py "
+            stage('test') {
+            steps {
+                sh" cd /home/pi/Desktop"
+                sh "python3 test.py"
             }
         }
     }
