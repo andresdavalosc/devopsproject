@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('test') {
             steps {
-                sh "pwd
+                sh "pwd"
                 }
             dir ("/home/pi/Desktop/jenkins_slave/workspace/Devops-project-rpi/hardware"){  
                 sh "pwd"
