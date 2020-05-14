@@ -3,9 +3,10 @@ pipeline {
     stages {
         stage('test') {
             steps {
-                sh " cd /home/pi/Desktop"  
                 sh "pwd"
-                sh "python3 test.py "
+                sh " cd /home/pi/Desktop/jenkins_slave/workspace/Devops-project-rpi/hardware"  
+                sh "pwd"
+                sh "python3 project-console.py "
             }
         }
     }
