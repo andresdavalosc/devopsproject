@@ -6,7 +6,7 @@ pipeline {
                 sh "pwd"
                 sh " cd /home/pi/Desktop/jenkins_slave/workspace/Devops-project-rpi/hardware"  
                 sh "pwd"
-                sh "python3 project-console.py "
+                sh "python3 project_console.py "
             }
         }
     }
