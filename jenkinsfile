@@ -3,10 +3,9 @@ pipeline {
     stages {
         stage('test') {
             steps {
-                sh" cd /home/pi/Desktop "
-                sh"pwd"
-                sh"ls"
-                sh "py test.py "
+                sh" cd /home/pi/Desktop  
+                python3 test.py 
+                "
             }
         }
     }
