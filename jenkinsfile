@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage('test') {
             steps {
+                sh" cd /home/pi/Desktop "
                 sh "py test.py "
             }
         }
