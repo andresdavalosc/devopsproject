@@ -3,7 +3,10 @@ pipeline {
   stages {
     stage("ping") {
       steps{
+      dir("/etc/ansible"){
             sh "pwd"
+            sh "ls -l"
+        }
         }
       }
     }
