@@ -1,5 +1,5 @@
 pipeline {
-    agent {node{label 'master'}}
+    agent none
     stages {
         stage("ping"){
                 steps{
@@ -27,10 +27,12 @@ pipeline {
              } 
           stage('python script') {
                  steps {
+                 node('raspberry pi'){
                    dir("/home/pi/Desktop/jenkins_slave/workspace/Devops-project-rpi/hardware") {
                    sh "pwd"
                    sh "ls"
                    }
+                  }
                  }
               }
            }
