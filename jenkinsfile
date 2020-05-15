@@ -16,17 +16,21 @@ pipeline {
     stage("image") {
       steps{
         node ('master') {
+        dir("/etc/ansible"){
           echo "image aan het maken..."
           ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook_image.yml'
         }
+       }
       }
     }
     stage("dockerfile") {
       steps{
         node ('master') {
+        dir("/etc/ansible"){
           echo "dockerfile aan het lezen..."
           ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook_dockerfile.yml' 
         }
+       }
       }
     }
     stage("container") {
