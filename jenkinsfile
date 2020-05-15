@@ -1,46 +1,31 @@
 pipeline {
-    agent none
+    agent {{node{label 'raspberry pi'}}
     stages {
         stage("ping"){
-                agent {
-                    label 'master'
-                   }
                 steps{
                   echo "pingen naar de slave..."
                   sh " ansible-playbook playbook.yml "
                 }
            }
         stage("image"){
-                agent {
-                    label 'master'
-                   }
                 steps{
                   echo "image aan het maken..."
                   sh " ansible-playbook playbook_image.yml "
                 }  
              }  
          stage("dockerfile"){
-         agent {
-                    label 'master'
-                   }
                 steps{
                   echo "dockerfile aan het lezen..."
                   sh " ansible-playbook playbook_dockerfile.yml "
                 }  
              } 
           stage("container"){
-          agent {
-                    label 'master'
-                   }
                 steps{
                   echo "container aan het maken..."
                   sh " ansible-playbook playbook_contaner.yml "
                 }  
              } 
           stage('python script') {
-                 agent {
-                    label 'raspberry-pi'
-                   }
                  steps {
                    dir("/home/pi/Desktop/jenkins_slave/workspace/Devops-project-rpi/hardware") {
                    sh "pwd"
