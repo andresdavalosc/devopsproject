@@ -13,7 +13,7 @@ pipeline {
       steps{
         node ('master') {
           echo "image aan het maken..."
-          sh " ansible-playbook playbook_image.yml "
+          ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook_image.yml'
         }
       }
     }
@@ -21,7 +21,7 @@ pipeline {
       steps{
         node ('master') {
           echo "dockerfile aan het lezen..."
-          sh " ansible-playbook playbook_dockerfile.yml "
+          ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook_dockerfile.yml' 
         }
       }
     }
@@ -29,7 +29,7 @@ pipeline {
       steps{
         node ('master') {
           echo "container aan het maken..."
-          sh " ansible-playbook playbook_contaner.yml "
+          ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook_container.yml'
         }
       }
     }
