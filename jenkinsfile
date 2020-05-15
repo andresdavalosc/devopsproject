@@ -8,6 +8,7 @@ pipeline {
                 sh "pwd"
                 dir("/home/pi/Desktop/jenkins_slave/workspace/Devops-project-rpi/hardware") {
                 sh "pwd"
+                sh " python3 project_console"
                 }
             }
         }
