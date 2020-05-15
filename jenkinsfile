@@ -1,15 +1,6 @@
 pipeline {
-    agent {node{label 'raspberry pi'}}
+    agent {node{label 'master'}}
     stages {
-        stage("installatie"){
-                steps{
-                  echo "ansible instaleren op rpi..."
-                  sh " sudo apt-get update "
-                  sh " sudo apt-get upgrade "
-                  sh " sudo apt install ansible "
-                  
-                }
-           }
         stage("ping"){
                 steps{
                   echo "pingen naar de slave..."
