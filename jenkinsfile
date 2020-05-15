@@ -5,7 +5,7 @@ pipeline {
       steps{
         node ('master') {
           echo "pingen naar de slave..."
-          ansiblePlaybook become: true, installation: 'Ansible', inventory: '/etc/ansible/hosts', playbook: '/etc/ansible/playbook.yml'
+          ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook.yml'
         }
       }
     }
