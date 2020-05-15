@@ -4,8 +4,12 @@ pipeline {
     stage("ping") {
       steps{
         node ('master') {
-          echo "pingen naar de slave..."
-          ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook.yml'
+        dir("/etc/ansible") {
+            sh "pwd"
+            sh "ls"
+             echo "pingen naar de slave..."
+             ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook.yml'
+          }
         }
       }
     }
