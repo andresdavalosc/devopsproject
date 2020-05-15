@@ -31,8 +31,7 @@ pipeline {
                   sh " ansible-playbook playbook_contaner.yml "
                    }
                  }
-                }  
-             } 
+              }  
           stage('python script') {
                  steps {
                  node('raspberry pi'){
