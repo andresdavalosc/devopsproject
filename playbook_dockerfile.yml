@@ -1,0 +1,8 @@
+---
+- name: installeren van lib
+  hosts: localhost
+  tasks:
+   - name: image aanmaken
+     docker_image:
+       path: /home/andres
+       name: devopsproject
