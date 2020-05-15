@@ -1,5 +1,5 @@
 pipeline {
-    agent {{node{label 'raspberry pi'}}
+    agent {node{label 'raspberry pi'}}
     stages {
         stage("ping"){
                 steps{
