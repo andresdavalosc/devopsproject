@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  tasks:
+   - name: pull python
+     docker_image:
+      name: python:3
