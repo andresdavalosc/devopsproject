@@ -2,8 +2,9 @@ pipeline {
   agent {node{label 'master'}}
   stages {
     stage("ping") {
-      steps
+      steps{
             sh "pwd"
         }
       }
     }
+   }
