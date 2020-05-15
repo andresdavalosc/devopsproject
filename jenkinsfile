@@ -1,54 +1,54 @@
 pipeline {
-    stages {
-        stage("ping"){
-                steps{
-                node ('master'){
-                  echo "pingen naar de slave..."
-                  sh " ansible-playbook playbook.yml "
-                  }
-                }
-           }
-        stage("image"){
-                steps{
-                node ('master'){
-                  echo "image aan het maken..."
-                  sh " ansible-playbook playbook_image.yml "
-                  }
-                }  
-             }  
-         stage("dockerfile"){
-                steps{
-                node ('master'){
-                  echo "dockerfile aan het lezen..."
-                  sh " ansible-playbook playbook_dockerfile.yml "
-                  }
-                }  
-             } 
-          stage("container"){
-                steps{
-                node ('master'){
-                  echo "container aan het maken..."
-                  sh " ansible-playbook playbook_contaner.yml "
-                   }
-                 }
-              }  
-          stage('python script') {
-                 steps {
-                 node('raspberry pi'){
-                   dir("/home/pi/Desktop/jenkins_slave/workspace/Devops-project-rpi/hardware") {
-                   sh "pwd"
-                   sh "ls"
-                   }
-                  }
-                 }
-              }
-           }
-            post {
-            success{
-              echo "file succesvol gestart"
-            }
-            failure{
-                echo "ERROR in de file"
-            }        
+  stages {
+    stage("ping") {
+      steps{
+        node ('master') {
+          echo "pingen naar de slave..."
+          sh " ansible-playbook playbook.yml "
         }
- }
+      }
+    }
+    stage("image") {
+      steps{
+        node ('master') {
+          echo "image aan het maken..."
+          sh " ansible-playbook playbook_image.yml "
+        }
+      }
+    }
+    stage("dockerfile") {
+      steps{
+        node ('master') {
+          echo "dockerfile aan het lezen..."
+          sh " ansible-playbook playbook_dockerfile.yml "
+        }
+      }
+    }
+    stage("container") {
+      steps{
+        node ('master') {
+          echo "container aan het maken..."
+          sh " ansible-playbook playbook_contaner.yml "
+        }
+      }
+    }
+    stage('python script') {
+      steps {
+        node('raspberry pi') {
+          dir("/home/pi/Desktop/jenkins_slave/workspace/Devops-project-rpi/hardware") {
+            sh "pwd"
+            sh "ls"
+          }
+        }
+      }
+    }
+  }
+  post {
+    success{
+      echo "file succesvol gestart"
+    }
+    failure{
+      echo "ERROR in de file"
+    }
+  }
+}
