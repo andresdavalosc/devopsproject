@@ -1,5 +1,8 @@
 pipeline {
     agent { node { label 'raspberry pi' } } 
+    dir("/home/pi/Desktop/jenkins_slave/workspace/Devops-project-rpi/hardware") {
+    sh "pwd"
+    }
     stages {
         steps {
                 sh "pwd"
