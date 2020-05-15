@@ -1,9 +1,8 @@
 pipeline {
-  agent {nde{label 'master'}}
+  agent {node{label 'master'}}
   stages {
     stage("ping") {
       steps{
-        node ('master') {
         dir("/etc/ansible") {
             sh "pwd"
             sh "ls"
@@ -13,51 +12,4 @@ pipeline {
         }
       }
     }
-    stage("image") {
-      steps{
-        node ('master') {
-        dir("/etc/ansible"){
-          echo "image aan het maken..."
-          ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook_image.yml'
-        }
-       }
-      }
-    }
-    stage("dockerfile") {
-      steps{
-        node ('master') {
-        dir("/etc/ansible"){
-          echo "dockerfile aan het lezen..."
-          ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook_dockerfile.yml' 
-        }
-       }
-      }
-    }
-    stage("container") {
-      steps{
-        node ('master') {
-          echo "container aan het maken..."
-          ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook_container.yml'
-        }
-      }
-    }
-    stage('python script') {
-      steps {
-        node('raspberry pi') {
-          dir("/home/pi/Desktop/jenkins_slave/workspace/Devops-project-rpi/hardware") {
-            sh "pwd"
-            sh "ls"
-          }
-        }
-      }
-    }
   }
-  post {
-    success{
-      echo "file succesvol gestart"
-    }
-    failure{
-      echo "ERROR in de file"
-    }
-  }
-}
