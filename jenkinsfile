@@ -44,3 +44,4 @@ pipeline {
       echo "ERROR in de file"
     }
   }
+}
