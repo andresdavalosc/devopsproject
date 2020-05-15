@@ -1,0 +1,10 @@
+---
+- name: container aanmaken
+  hosts: localhost
+  tasks:
+   - name: spel container maken
+     docker_container:
+       name: SpelContainer
+       image: devopsproject
+       state: started
+
