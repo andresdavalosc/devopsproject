@@ -2,7 +2,7 @@ pipeline {
     stages {
         stage("ping"){
                 steps{
-                node (label'master'){
+                node ('master'){
                   echo "pingen naar de slave..."
                   sh " ansible-playbook playbook.yml "
                   }
@@ -10,7 +10,7 @@ pipeline {
            }
         stage("image"){
                 steps{
-                node (label'master'){
+                node ('master'){
                   echo "image aan het maken..."
                   sh " ansible-playbook playbook_image.yml "
                   }
@@ -18,7 +18,7 @@ pipeline {
              }  
          stage("dockerfile"){
                 steps{
-                node (label'master'){
+                node ('master'){
                   echo "dockerfile aan het lezen..."
                   sh " ansible-playbook playbook_dockerfile.yml "
                   }
@@ -26,7 +26,7 @@ pipeline {
              } 
           stage("container"){
                 steps{
-                node (label'master'){
+                node ('master'){
                   echo "container aan het maken..."
                   sh " ansible-playbook playbook_contaner.yml "
                    }
