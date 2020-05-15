@@ -1,5 +1,5 @@
 pipeline {
-  agent none
+  agent {nde{label 'master'}}
   stages {
     stage("ping") {
       steps{
@@ -8,8 +8,7 @@ pipeline {
             sh "pwd"
             sh "ls"
              echo "pingen naar de slave..."
-             sh " ansible-playbook  playbook.yml"
-             
+             ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook.yml'
           }
         }
       }
