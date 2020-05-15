@@ -2,10 +2,8 @@ pipeline {
   agent {node{label 'master'}}
   stages {
     stage("ping") {
-      steps{
-        dir("/etc/ansible") {
+      steps
             sh "pwd"
-          }
         }
       }
     }
