@@ -4,6 +4,7 @@ pipeline {
     stage("ping"){
         steps{
             echo "pingen naar de slave..."
+            sh " ansible-playbook playbook.yml"
             ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook.yml'
       }
     }
