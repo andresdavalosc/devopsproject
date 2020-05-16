@@ -5,25 +5,24 @@ pipeline {
         steps{
             echo "pingen naar de slave..."
             sh " ansible-playbook playbook.yml"
-            ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook.yml'
       }
     }
     stage("image") {
       steps{
           echo "image aan het maken..."
-          ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook_image.yml'
+          sh " ansible-playbook playbook_image.yml"
       }
     }
     stage("dockerfile") {
       steps{
           echo "dockerfile aan het lezen..."
-          ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook_dockerfile.yml' 
+          sh " ansible-playbook playbook_dockerfile.yml"
       }
     }
     stage("container") {
       steps{
           echo "container aan het maken..."
-          ansiblePlaybook become: true, installation: 'Ansible', inventory: 'hosts', playbook: 'playbook_container.yml'
+          sh " ansible-playbook playbook_container.yml"
       }
     }
     stage('python script') {
