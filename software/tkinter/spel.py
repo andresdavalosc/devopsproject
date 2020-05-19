@@ -132,11 +132,16 @@ def on_message(client, userdata, msg):
           toiletrol(str(msg.payload))
       elif str(msg.payload) == "b'2UP'" or str(msg.payload) == "b'2DN'":
           karretje(str(msg.payload))
+      else:
+          print(str(tijd))
+          tijd = tk.Label( venster, text = str(msg.payload))
+          tijd.pack()
 
 client = mqtt.Client()
 client.on_message = on_message
 client.connect(host="anonymous10.ddns.net")
 client.subscribe("Hardware/console/bediening")
+client.subscribe("Software/controller/timer")
 #client.subscribe("Desktop/venster2")
 client.loop_start()
 venster.mainloop()

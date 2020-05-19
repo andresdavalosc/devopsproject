@@ -20,12 +20,15 @@ def timer(count):
            time.sleep(1)
            if i == 0:
                 print("Game over!")
+           print(str(i))
+           publish.single("Software/controller/timer", payload=i, hostname="anonymous10.ddns.net")
 
-timer(10)
+
+timer(20)
 client = mqtt.Client()
 client.on_message = on_message
 client.connect(host="anonymous10.ddns.net")
-client.subscribe("Desktop/score")
+client.subscribe("Software/controller/score")
 client.loop_forever()
 
 
