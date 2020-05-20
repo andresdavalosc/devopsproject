@@ -1,5 +1,5 @@
 pipeline {
-    agent {node{label'ubuntu'}}
+    agent {node{label'raspberry pi'}}
     stages {
     stage("ping"){
         steps{
@@ -25,16 +25,6 @@ pipeline {
       steps{
           echo "container aan het maken..."
           sh " ansible-playbook playbook_container.yml"
-      }
-    }
-    stage('python script') {
-      steps {
-        node('raspberry pi') {
-          dir("/home/pi/Desktop/jenkins_slave/workspace/Devops-project-rpi/hardware") {
-            sh "pwd"
-            sh "ls"
-          }
-        }
       }
     }
   }
