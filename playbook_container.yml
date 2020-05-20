@@ -1,6 +1,6 @@
 ---
 - name: container aanmaken
-  hosts: localhost
+  hosts: RPI
   tasks:
    - name: spel container maken
      shell: docker run dockerimage
