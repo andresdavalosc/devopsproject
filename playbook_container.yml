@@ -3,7 +3,6 @@
   hosts: localhost
   tasks:
    - name: spel container maken
-     docker_container:
      shell: docker run dockerimage
 
 
