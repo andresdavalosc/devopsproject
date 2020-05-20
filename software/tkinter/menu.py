@@ -126,7 +126,7 @@ class Menu:
        client.loop_start()
 
   def Main2(self):
-       os.system("python3 /home/pi/Desktop/NewRaspProjectFile/Raspi-project-game/hardware/project_console.py")
+       os.system("python3 /home/pi/Desktop/Raspi-project-game/hardware/project_console.py")
 
 if __name__ == "__main__":
   master = tk.Tk()
