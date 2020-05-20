@@ -10,11 +10,14 @@ player2=0
 player3=0
 venster.counter = 0
 
-def Collision(obj):
+def Collision(obj,bool):
      global score,wcrol
      kader.delete(obj)
      wcrol = kader.create_image( 10, 250, anchor = tk.NW, image=foto )
-     venster.counter += 1
+     if bool == True:
+       venster.counter += 1
+     elif bool == False:
+       venster.counter -= 1
      publish.single("Desktop/score", payload=venster.counter, hostname="anonymous10.ddns.net")
      score['text'] = str(venster.counter)
      print(venster.counter)
@@ -41,6 +44,7 @@ def BeweegWcrol():
         kader.move(wcrol, wcrol_speed, 0)
         x1, y1 = kader.coords(wcrol)
         x2, y2 = kader.coords(car)
+        x3, y3 = kader.coords(virus)
         if wcrol_move_right:
 
                 if x1 > w-35:
@@ -52,8 +56,10 @@ def BeweegWcrol():
                         wcrol_move_right = not wcrol_move_right
                         wcrol_speed = -wcrol_speed
        # venster.after(25, BeweegWcrol)
-        if  x1 < x2+220 and x1 > x2 and y1 < y2+235 and y1 > y2:
-            Collision(wcrol)
+        if  x1 < x2+100 and x1 > x2 and y1 < y2+100 and y1 > y2:
+            Collision(wcrol,True)
+        elif  x1 < x3+100 and x1 > x3 and y1 < y3+100 and y1 > y3:
+            Collision(wcrol,False)
         venster.after(25, BeweegWcrol)
 
 def BeweegVirus():
@@ -113,7 +119,7 @@ virus = kader.create_image( 700, 80, anchor = tk.NW, image=fotovirus )
 scoreBoard = tk.Label(venster, text="Score: ", bg="black", fg="white", font=("Arial", 30))
 scoreBoard.pack()
 scoreBoard_w = kader.create_window(1700,50, window=scoreBoard)
-score = tk.Label(venster, text ='test', bg="black", fg="white", font=("Arial", 30))
+score = tk.Label(venster, text ='0', bg="black", fg="white", font=("Arial", 30))
 score.pack()
 score_w = kader.create_window(1780,50, window=score)
 BeweegVirus()
@@ -140,6 +146,3 @@ client.subscribe("Hardware/console/bediening")
 #client.subscribe("Desktop/venster2")
 client.loop_start()
 venster.mainloop()
- 
-
-
