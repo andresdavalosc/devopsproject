@@ -4,7 +4,6 @@
   tasks:
    - name: spel container maken
      docker_container:
-       name: SpelContainer
-       image: devopsproject
-       state: started
+     shell: docker run dockerimage
+
 
