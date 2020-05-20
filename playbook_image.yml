@@ -1,6 +1,8 @@
 ---
-- hosts: localhost
+- hosts: RPI
+  become: true
   tasks:
-   - name: pull pythonTEST
-     docker_image:
-      name: python:3
+   - name: pull python
+     shell: docker pull python:3
+
+
