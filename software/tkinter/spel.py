@@ -5,7 +5,7 @@ import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 import tkinter.font as tkFont
 
-class Object:
+class Player:
 
 	def __init__(self, master = None, canvas = None, xpos = None, ypos = None, tkphoto = None, axis = None):
 
@@ -114,27 +114,27 @@ class Game:
 		kader = self.CreateUI()
 		self.kader = kader
 
-		# Create Game Objects
+		# Create Game Players
 
 		virusPhoto = tk.PhotoImage(file="./img/virus.png")
 		cartPhoto = tk.PhotoImage(file="./img/cart.png")
 		rolPhoto = tk.PhotoImage(file = "./img/wcrol.png")
 
-		self.VirusPlayer = Object(master, kader, 0, 0, virusPhoto, "horizontal")
-		self.RolPlayer = Object(master, kader, 0, 180, rolPhoto, "vertical")
-		self.CartPlayer = Object(master, kader, 0, 280, cartPhoto, "horizontal")
+		self.VirusPlayer = Player(master, kader, 0, 0, virusPhoto, "horizontal")
+		self.RolPlayer = Player(master, kader, 0, 180, rolPhoto, "vertical")
+		self.CartPlayer = Player(master, kader, 0, 280, cartPhoto, "horizontal")
 
 
 		# Start Gameloop
 
-		allObjects = [self.VirusPlayer, self.RolPlayer, self.CartPlayer]
+		allPlayers = [self.VirusPlayer, self.RolPlayer, self.CartPlayer]
 
-		loop_thread = threading.Thread(target=self.Loop, args=(kader,allObjects))
+		loop_thread = threading.Thread(target=self.Loop, args=(kader,allPlayers))
 		loop_thread.start()
 
-	def Loop(self, kader ,allObjects): # Gameloop
+	def Loop(self, kader ,allPlayers): # Gameloop
 		while True:
-			for obj in allObjects:
+			for obj in allPlayers:
 				obj.CheckEdges(kader, self.width, self.height)
 				obj.Move(kader)
 
