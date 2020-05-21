@@ -32,6 +32,37 @@ class Player:
 		elif self.moveaxis == "horizontal":
 			canvas.move(self.created_img, 0, vector1)
 
+	def GetCreatedImage(self):
+		return self.created_img
+
+	def GetTkPhoto(self):
+		return self.tkphoto
+
+	def CheckCollision(self, otherplayer, canvas): # Check if the images (rectangles) intersect
+		l1x, l1y = canvas.coords(self.GetCreatedImage())
+		l2x, l2y = canvas.coords(otherplayer.GetCreatedImage())
+
+		rh1 = self.GetTkPhoto().height()
+		rw1 = self.GetTkPhoto().width()
+		rh2 = otherplayer.GetTkPhoto().height()
+		rw2 = otherplayer.GetTkPhoto().width()
+
+		r1x = l1x + rw1
+		r1y = l1y + rh1
+
+		r2x = l2x + rw2
+		r2y = l2y + rh2
+
+		#If one rectangle is on left side of other
+		if(l1x >= r2x or l2x >= r1x):
+			print(" ")
+
+		# If one rectangle is above other
+		elif(l1y >= r2y or l2y >= r1y):
+			print(" ")
+		else:
+			print("collided")
+
 	def Control(self, pressedbutton, canvas): # Move to the direction of the button
 		#print(pressedbutton)
 		if self.moveaxis == "vertical":
@@ -135,7 +166,13 @@ class Game:
 	def Loop(self, kader ,allPlayers): # Gameloop
 		while True:
 			for obj in allPlayers:
+				# Check Collision With Other Players
+				for obj2 in allPlayers:
+					if obj != obj2:
+						obj.CheckCollision(obj2,kader)
+				# Check Collision With Edges Of Screen
 				obj.CheckEdges(kader, self.width, self.height)
+				# Keep Moving UP/DOWN or LEFT/RIGHT
 				obj.Move(kader)
 
 			sleep(0.25)
