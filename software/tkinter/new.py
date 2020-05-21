@@ -108,6 +108,21 @@ class Game:
 
 
 if __name__ == "__main__":
+
+	def on_message(client, userdata, msg):
+		print(str(msg.payload))
+		# Logic Here
+
+	# MQTT SETUP
+
+	client = mqtt.Client()
+	client.on_message = on_message
+	client.connect(host="anonymous10.ddns.net")
+	client.subscribe("Hardware/console/bediening")
+	client.loop_start()
+
+	# Game Setup
+
 	master = tk.Tk()
 	game = Game(master)
 	game.Start()
