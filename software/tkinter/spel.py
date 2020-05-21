@@ -55,13 +55,13 @@ class Player:
 
 		#If one rectangle is on left side of other
 		if(l1x >= r2x or l2x >= r1x):
-			print(" ")
+			return False
 
 		# If one rectangle is above other
 		elif(l1y >= r2y or l2y >= r1y):
-			print(" ")
+			return False
 		else:
-			print("collided")
+			return True
 
 	def Control(self, pressedbutton, canvas): # Move to the direction of the button
 		#print(pressedbutton)
@@ -165,11 +165,22 @@ class Game:
 
 	def Loop(self, kader ,allPlayers): # Gameloop
 		while True:
+			# Check collision between rol and cart
+
+			collidedWithCart = allPlayers[1].CheckCollision(allPlayers[2], kader)
+			collidedWithVirus = allPlayers[1].CheckCollision(allPlayers[0], kader)
+
+			if collidedWithCart == True:
+				print("cart")
+			if collidedWithVirus == True:
+				print("virus")
+
 			for obj in allPlayers:
 				# Check Collision With Other Players
-				for obj2 in allPlayers:
-					if obj != obj2:
-						obj.CheckCollision(obj2,kader)
+				#for obj2 in allPlayers:
+				#	if obj != obj2:
+				#		obj.CheckCollision(obj2,kader)
+
 				# Check Collision With Edges Of Screen
 				obj.CheckEdges(kader, self.width, self.height)
 				# Keep Moving UP/DOWN or LEFT/RIGHT
