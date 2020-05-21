@@ -55,7 +55,7 @@ class Game:
 
 	def Start(self):
 
-		# Canvas + Title
+		# Canvas + Title + Score Text
 
 		self.width = 1920
 		self.height = 990
@@ -64,6 +64,12 @@ class Game:
 		tekst.pack()
 		kader = tk.Canvas(master, width=self.width, height=self.height, background="black")
 		kader.pack()
+		scoreBoard = tk.Label(self.master, text="Score: ", bg="black", fg="white", font=("Arial", 30))
+		scoreBoard.pack()
+		scoreBoard_w = kader.create_window(900, 50, window=scoreBoard)
+		score = tk.Label(self.master, text ='0', bg="black", fg="white", font=("Arial", 30))
+		score.pack()
+		score_w = kader.create_window(1000, 50, window=score)
 
 		# Create Game Objects
 
