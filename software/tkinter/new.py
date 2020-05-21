@@ -14,6 +14,9 @@ class Object:
 		self.acceleration = 1
 		self.moveaxis = axis
 
+		# Image File
+		self.tkphoto = tkphoto
+
 		# Image On Canvas
 		self.created_img = self.Create(canvas, xpos, ypos, tkphoto)
 
@@ -29,18 +32,20 @@ class Object:
 		elif self.moveaxis == "horizontal":
 			canvas.move(self.created_img, 0, vector1)
 
-	def CheckEdges(self, canvas, width, height):
-		x1, y1 = canvas.coords(self.created_img)
+	def CheckEdges(self, canvas, canvas_width, canvas_height):
+		image_posx, image_posy = canvas.coords(self.created_img)
+		image_width = self.tkphoto.width()
+		image_height = self.tkphoto.height()
 
 		if self.moveaxis == "vertical":
 
-			if (x1 <  0) or x1 > (width):
-				self.acceleration = self.acceleration * -1
+			if (image_posx <  0) or (image_posx > canvas_width - image_width):
+				self.acceleration = self.acceleration * -1 # Invert
 				print("Collision Vertical")
 
 		elif self.moveaxis == "horizontal":
-			if (y1 < 0) or (y1 > height):
-				self.acceleration = self.acceleration * -1
+			if (image_posy < 0) or (image_posy > canvas_height - image_height):
+				self.acceleration = self.acceleration * -1 # Invert
 				print("Collision Horizontal")
 
 class Game:
