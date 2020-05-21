@@ -32,6 +32,7 @@ class Object:
 		elif self.moveaxis == "horizontal":
 			canvas.move(self.created_img, 0, vector1)
 
+
 	def CheckEdges(self, canvas, canvas_width, canvas_height):
 		image_posx, image_posy = canvas.coords(self.created_img)
 		image_width = self.tkphoto.width()
@@ -82,18 +83,18 @@ class Game:
 
 		# Create Game Objects
 
-		self.virus = tk.PhotoImage(file="./img/virus.png")
-		self.cart = tk.PhotoImage(file="./img/cart.png")
-		self.rol = tk.PhotoImage(file = "./img/wcrol.png")
+		virusPhoto = tk.PhotoImage(file="./img/virus.png")
+		cartPhoto = tk.PhotoImage(file="./img/cart.png")
+		rolPhoto = tk.PhotoImage(file = "./img/wcrol.png")
 
-		Virus = Object(master, kader, 0, 0, self.virus, "horizontal")
-		Rol = Object(master, kader, 0, 180, self.rol, "vertical")
-		Cart = Object(master, kader, 0, 280, self.cart, "horizontal")
+		VirusPlayer = Object(master, kader, 0, 0, virusPhoto, "horizontal")
+		RolPlayer = Object(master, kader, 0, 180, rolPhoto, "vertical")
+		CartPlayer = Object(master, kader, 0, 280, cartPhoto, "horizontal")
 
 
 		# Start Gameloop
 
-		allObjects = [Virus, Rol, Cart]
+		allObjects = [VirusPlayer, RolPlayer, CartPlayer]
 
 		loop_thread = threading.Thread(target=self.Loop, args=(kader,allObjects))
 		loop_thread.start()
@@ -109,6 +110,13 @@ class Game:
 
 if __name__ == "__main__":
 
+	# GameSetup
+
+        master = tk.Tk()
+        game = Game(master)
+        game.Start()
+        tk.mainloop()
+
 	def on_message(client, userdata, msg):
 		print(str(msg.payload))
 		# Logic Here
@@ -120,10 +128,3 @@ if __name__ == "__main__":
 	client.connect(host="anonymous10.ddns.net")
 	client.subscribe("Hardware/console/bediening")
 	client.loop_start()
-
-	# Game Setup
-
-	master = tk.Tk()
-	game = Game(master)
-	game.Start()
-	tk.mainloop()
