@@ -98,13 +98,13 @@ class Game:
 		print(pressedbutton)
 
 		if playernumber == 1:
-			print("player 1 moved")
-			self.RolPlayer(pressedbutton, self.kader)
-		elif playernumber == 2:
-			print("player 2 moved")
-			self.CartPlayer(pressedbutton, self.kader)
-		elif playernumber == 3:
-			print("player 3 moved")
+			#print("player 1 moved")
+			self.RolPlayer.Control(pressedbutton, self.kader)
+		if playernumber == 2:
+			#print("player 2 moved")
+			self.CartPlayer.Control(pressedbutton, self.kader)
+		if playernumber == 3:
+			#print("player 3 moved")
 			self.VirusPlayer.Control(pressedbutton, self.kader)
 
 	def Start(self):
