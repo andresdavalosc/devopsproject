@@ -24,7 +24,7 @@ class Object:
 		created_img = canvas.create_image(xpos, ypos, anchor = tk.NW, image=tkphoto)
 		return created_img
 
-	def Move(self, canvas):
+	def Move(self, canvas): # Keep moving left/right or up/down
 		vector1 = self.acceleration * self.speed
 
 		if self.moveaxis == "vertical":
@@ -32,7 +32,7 @@ class Object:
 		elif self.moveaxis == "horizontal":
 			canvas.move(self.created_img, 0, vector1)
 
-	def Control(self, pressedbutton, canvas):
+	def Control(self, pressedbutton, canvas): # Move to the direction of the button
 		#print(pressedbutton)
 		if self.moveaxis == "vertical":
 			if pressedbutton == "UP":
@@ -47,7 +47,7 @@ class Object:
 				canvas.move(self.created_img, -10, 0)
 
 
-	def CheckEdges(self, canvas, canvas_width, canvas_height):
+	def CheckEdges(self, canvas, canvas_width, canvas_height): # Check If Player Is Inside Canvas
 		image_posx, image_posy = canvas.coords(self.created_img)
 		image_width = self.tkphoto.width()
 		image_height = self.tkphoto.height()
@@ -89,13 +89,13 @@ class Game:
 		return kader
 
 
-	def HandleControls(self, message):
+	def HandleControls(self, message): # Handle the message received from the broker
 				 			# Full Message = b'3UP'
 		playernumber = int(message[2:3])	# Player Number = 3
 		pressedbutton = message [3:5]		# Pressed Button = UP
 		print(message)
-		print(playernumber)
-		print(pressedbutton)
+		#print(playernumber)
+		#print(pressedbutton)
 
 		if playernumber == 1:
 			#print("player 1 moved")
@@ -132,7 +132,7 @@ class Game:
 		loop_thread = threading.Thread(target=self.Loop, args=(kader,allObjects))
 		loop_thread.start()
 
-	def Loop(self, kader ,allObjects):
+	def Loop(self, kader ,allObjects): # Gameloop
 		while True:
 			for obj in allObjects:
 				obj.CheckEdges(kader, self.width, self.height)
