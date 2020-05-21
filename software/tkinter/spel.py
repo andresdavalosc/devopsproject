@@ -1,148 +1,166 @@
-import tkinter as tk 
-from time import sleep 
-import paho.mqtt.client as mqtt 
-import paho.mqtt.publish as publish 
+import threading
+import tkinter as tk
+from time import sleep
+import paho.mqtt.client as mqtt
+import paho.mqtt.publish as publish
 import tkinter.font as tkFont
 
-venster = tk.Tk()
-player1=0
-player2=0
-player3=0
-venster.counter = 0
+class Object:
 
-def Collision(obj,bool):
-     global score,wcrol
-     kader.delete(obj)
-     wcrol = kader.create_image( 10, 250, anchor = tk.NW, image=foto )
-     if bool == True:
-       venster.counter += 1
-     elif bool == False:
-       venster.counter -= 1
-     publish.single("Desktop/score", payload=venster.counter, hostname="anonymous10.ddns.net")
-     score['text'] = str(venster.counter)
-     print(venster.counter)
+	def __init__(self, master = None, canvas = None, xpos = None, ypos = None, tkphoto = None, axis = None):
 
-def BeweegKar():
-        global kar_speed,h
-        global kar_move_right
-        kader.move(car, 0,kar_speed)
-        x1, y1 = kader.coords(car)
-        if kar_move_right:
+		# Movement Propeties
+		self.speed = 10
+		self.acceleration = 1
+		self.moveaxis = axis
 
-                if y1 > h-220:
-                        kar_move_right = not kar_move_right
-                        kar_speed = -kar_speed
-        else:
-                if y1 < 10:
-                        kar_move_right = not kar_move_right
-                        kar_speed = -kar_speed
-        venster.after(25, BeweegKar)
+		# Image File
+		self.tkphoto = tkphoto
 
-def BeweegWcrol():
-        global wcrol_speed,w
-        global wcrol_move_right
-        kader.move(wcrol, wcrol_speed, 0)
-        x1, y1 = kader.coords(wcrol)
-        x2, y2 = kader.coords(car)
-        x3, y3 = kader.coords(virus)
-        if wcrol_move_right:
+		# Image On Canvas
+		self.created_img = self.Create(canvas, xpos, ypos, tkphoto)
 
-                if x1 > w-35:
-                        print("groter")
-                        wcrol_move_right = not wcrol_move_right
-                        wcrol_speed = -wcrol_speed
-        else:
-                if x1 < 0:
-                        wcrol_move_right = not wcrol_move_right
-                        wcrol_speed = -wcrol_speed
-       # venster.after(25, BeweegWcrol)
-        if  x1 < x2+100 and x1 > x2 and y1 < y2+100 and y1 > y2:
-            Collision(wcrol,True)
-        elif  x1 < x3+100 and x1 > x3 and y1 < y3+100 and y1 > y3:
-            Collision(wcrol,False)
-        venster.after(25, BeweegWcrol)
+	def Create(self, canvas, xpos, ypos, tkphoto):
+		created_img = canvas.create_image(xpos, ypos, anchor = tk.NW, image=tkphoto)
+		return created_img
 
-def BeweegVirus():
-        global virus_speed,w
-        global virus_move_left
-        kader.move(virus, virus_speed, 0)
-        x1, y1 = kader.coords(virus)
-        if virus_move_left:
+	def Move(self, canvas): # Keep moving left/right or up/down
+		vector1 = self.acceleration * self.speed
 
-                if x1 < -10:
-                        virus_move_left = not virus_move_left
-                        virus_speed = -virus_speed
-        else:
-                if x1 > w-120:
-                        virus_move_left = not virus_move_left
-                        virus_speed = -virus_speed
-        venster.after(25, BeweegVirus)
+		if self.moveaxis == "vertical":
+			canvas.move(self.created_img, vector1, 0 )
+		elif self.moveaxis == "horizontal":
+			canvas.move(self.created_img, 0, vector1)
 
-def coronavirus(message):
-      if message == "b'3UP'":
-          kader.move(virus, 0, -35)
-      if message == "b'3DN'":
-          kader.move(virus, 0, 35)
+	def Control(self, pressedbutton, canvas): # Move to the direction of the button
+		#print(pressedbutton)
+		if self.moveaxis == "vertical":
+			if pressedbutton == "UP":
+				canvas.move(self.created_img, 0, +10)
+			elif pressedbutton == "DN":
+				canvas.move(self.created_img, 0, -10)
 
-def toiletrol(message):
-     if message == "b'1UP'":
-          kader.move(wcrol, 0, -35)
-     if message == "b'1DN'":
-          kader.move(wcrol, 0, 35)
+		elif self.moveaxis == "horizontal":
+			if pressedbutton == "UP":
+				canvas.move(self.created_img, +10, 0)
+			elif pressedbutton == "DN":
+				canvas.move(self.created_img, -10, 0)
 
-def karretje(message):
-     if message == "b'2UP'":
-          kader.move(car,-35,0)
-     if message == "b'2DN'":
-          kader.move(car,35,0)
 
-kar_speed=2
-kar_move_right = True
-wcrol_speed=2
-wcrol_move_right = True
-virus_speed=-2
-virus_move_left = True
-w = 1920
-h = 990
-posy =250
-posx=10
-tekst = tk.Label( venster, text = "Welcome to corona Game")
-tekst.pack()
-kader = tk.Canvas(venster, width = w, height = h, bg ="black")
-kader.pack()
-foto = tk.PhotoImage( file = "./img/wcrol.png" )
-wcrol = kader.create_image( posx, posy, anchor = tk.NW, image=foto )
-fotocar = tk.PhotoImage( file = "./img/cart.png" )
-car = kader.create_image( 400, 200, anchor = tk.NW, image=fotocar )
-fotovirus = tk.PhotoImage( file = "./img/virus.png" )
-virus = kader.create_image( 700, 80, anchor = tk.NW, image=fotovirus )
-scoreBoard = tk.Label(venster, text="Score: ", bg="black", fg="white", font=("Arial", 30))
-scoreBoard.pack()
-scoreBoard_w = kader.create_window(1700,50, window=scoreBoard)
-score = tk.Label(venster, text ='0', bg="black", fg="white", font=("Arial", 30))
-score.pack()
-score_w = kader.create_window(1780,50, window=score)
-BeweegVirus()
-BeweegWcrol()
-BeweegKar()
+	def CheckEdges(self, canvas, canvas_width, canvas_height): # Check If Player Is Inside Canvas
+		image_posx, image_posy = canvas.coords(self.created_img)
+		image_width = self.tkphoto.width()
+		image_height = self.tkphoto.height()
 
-def on_message(client, userdata, msg):
-      print(str(msg.payload))
-      global player1,player2,player3
+		if self.moveaxis == "vertical":
 
-      if str(msg.payload) == "b'3UP'" or str(msg.payload) == "b'3DN'":
-          print("ok")
-          coronavirus(str(msg.payload))
-      elif str(msg.payload) == "b'1UP'" or str(msg.payload) == "b'1DN'":
-          print("erin")
-          toiletrol(str(msg.payload))
-      elif str(msg.payload) == "b'2UP'" or str(msg.payload) == "b'2DN'":
-          karretje(str(msg.payload))
+			if (image_posx <  0) or (image_posx > canvas_width - image_width):
+				self.acceleration = self.acceleration * -1 # Invert
+				print("Collision Vertical")
 
-client = mqtt.Client()
-client.on_message = on_message
-client.connect(host="anonymous10.ddns.net")
-client.subscribe("Hardware/console/bediening")
-#client.subscribe("Desktop/venster2")
-client.loop_start()
-venster.mainloop()
+		elif self.moveaxis == "horizontal":
+			if (image_posy < 0) or (image_posy > canvas_height - image_height):
+				self.acceleration = self.acceleration * -1 # Invert
+				print("Collision Horizontal")
+
+class Game:
+
+	def __init__(self, master = None):
+		self.master = master
+
+	def CreateUI(self):
+
+                # Create Canvas + Title + Score Text
+
+		self.width = 1920
+		self.height = 990
+
+		tekst = tk.Label(master, text = "Welcome to corona Game")
+		tekst.pack()
+		kader = tk.Canvas(master, width=self.width, height=self.height, background="black")
+		kader.pack()
+		scoreBoard = tk.Label(self.master, text="Score: ", bg="black", fg="white", font=("Arial", 30))
+		scoreBoard.pack()
+		scoreBoard_w = kader.create_window(900, 50, window=scoreBoard)
+		score = tk.Label(self.master, text ='0', bg="black", fg="white", font=("Arial", 30))
+		score.pack()
+		score_w = kader.create_window(1000, 50, window=score)
+
+		return kader
+
+
+	def HandleControls(self, message): # Handle the message received from the broker
+				 			# Full Message = b'3UP'
+		playernumber = int(message[2:3])	# Player Number = 3
+		pressedbutton = message [3:5]		# Pressed Button = UP
+		print(message)
+		#print(playernumber)
+		#print(pressedbutton)
+
+		if playernumber == 1:
+			#print("player 1 moved")
+			self.RolPlayer.Control(pressedbutton, self.kader)
+		if playernumber == 2:
+			#print("player 2 moved")
+			self.CartPlayer.Control(pressedbutton, self.kader)
+		if playernumber == 3:
+			#print("player 3 moved")
+			self.VirusPlayer.Control(pressedbutton, self.kader)
+
+	def Start(self):
+
+		#Create UI
+
+		kader = self.CreateUI()
+		self.kader = kader
+
+		# Create Game Objects
+
+		virusPhoto = tk.PhotoImage(file="./img/virus.png")
+		cartPhoto = tk.PhotoImage(file="./img/cart.png")
+		rolPhoto = tk.PhotoImage(file = "./img/wcrol.png")
+
+		self.VirusPlayer = Object(master, kader, 0, 0, virusPhoto, "horizontal")
+		self.RolPlayer = Object(master, kader, 0, 180, rolPhoto, "vertical")
+		self.CartPlayer = Object(master, kader, 0, 280, cartPhoto, "horizontal")
+
+
+		# Start Gameloop
+
+		allObjects = [self.VirusPlayer, self.RolPlayer, self.CartPlayer]
+
+		loop_thread = threading.Thread(target=self.Loop, args=(kader,allObjects))
+		loop_thread.start()
+
+	def Loop(self, kader ,allObjects): # Gameloop
+		while True:
+			for obj in allObjects:
+				obj.CheckEdges(kader, self.width, self.height)
+				obj.Move(kader)
+
+			sleep(0.25)
+
+
+if __name__ == "__main__":
+
+	# GameSetup
+
+	master = tk.Tk()
+	game = Game(master)
+
+	def on_message(client, userdata, msg):
+		#print(str(msg.payload))
+		game.HandleControls(str(msg.payload))
+
+	# MQTT SETUP
+
+	client = mqtt.Client()
+	client.on_message = on_message
+	client.connect(host="anonymous10.ddns.net")
+	client.subscribe("Hardware/console/bediening")
+
+	# Start Loops
+
+	client.loop_start()
+	game.Start()
+	tk.mainloop()
