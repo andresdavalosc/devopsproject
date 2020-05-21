@@ -32,6 +32,20 @@ class Object:
 		elif self.moveaxis == "horizontal":
 			canvas.move(self.created_img, 0, vector1)
 
+	def Control(self, pressedbutton)
+		print(pressedbutton)
+		if self.moveaxis == "vertical":
+			if pressedbutton == "UP":
+				canvas.move(self.created_img, 0, +10)
+			elif pressedbutton == "DN":
+				canvas.move(self.created_img, 0, -10)
+
+		elif self.moveaxis == "horizontal":
+			if pressedbutton == "UP":
+				canvas.move(self.created_img, +10, 0)
+			elif pressedbutton == "DN"
+				canvas.move(self.created_img, -10, 0)
+
 
 	def CheckEdges(self, canvas, canvas_width, canvas_height):
 		image_posx, image_posy = canvas.coords(self.created_img)
