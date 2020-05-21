@@ -9,8 +9,10 @@ class Object:
 
 	def __init__(self, master = None, canvas = None, xpos = None, ypos = None, tkphoto = None, axis = None):
 
+		self.master = master
+		self
 		# Movement Propeties
-		self.speed = 2
+		self.speed = 10
 		self.acceleration = 1
 		self.moveaxis = axis
 
@@ -29,18 +31,32 @@ class Object:
 		elif self.moveaxis == "horizontal":
 			canvas.move(self.created_img, 0, vector1)
 
+	def CheckEdges(self, canvas, width, height):
+		x1, y1 = canvas.coords(self.created_img)
+
+		if self.moveaxis == "vertical":
+
+			if (x1 <  0) or x1 > (width):
+				self.acceleration = self.acceleration * -1
+				print("Collision Vertical")
+
+		elif self.moveaxis == "horizontal":
+			if (y1 < 0) or (y1 > height):
+				self.acceleration = self.acceleration * -1
+				print("Collision Horizontal")
+
 class Game:
 
 	def __init__(self, master = None):
 		self.master = master
 
 	def Start(self):
-		width = 1920
-		height = 990
+		self.width = 1920
+		self.height = 990
 
 		tekst = tk.Label(master, text = "Welcome to corona Game") 
 		tekst.pack()
-		kader = tk.Canvas(master, width=width, height=height, background="black")
+		kader = tk.Canvas(master, width=self.width, height=self.height, background="black")
 		kader.pack()
 
 		# Create Game Objects
@@ -61,6 +77,7 @@ class Game:
 	def loop(self, kader, allObjects):
 		while True:
 			for obj in allObjects:
+				obj.CheckEdges(kader, self.width, self.height)
 				obj.Move(kader)
 
 			sleep(0.25)
