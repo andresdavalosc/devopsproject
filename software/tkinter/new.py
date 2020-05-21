@@ -75,6 +75,12 @@ class Game:
 		return kader
 
 
+	def HandleControls(self, message):
+		print(message)
+
+
+
+
 	def Start(self):
 
 		#Create UI
@@ -87,14 +93,14 @@ class Game:
 		cartPhoto = tk.PhotoImage(file="./img/cart.png")
 		rolPhoto = tk.PhotoImage(file = "./img/wcrol.png")
 
-		VirusPlayer = Object(master, kader, 0, 0, virusPhoto, "horizontal")
-		RolPlayer = Object(master, kader, 0, 180, rolPhoto, "vertical")
-		CartPlayer = Object(master, kader, 0, 280, cartPhoto, "horizontal")
+		self.VirusPlayer = Object(master, kader, 0, 0, virusPhoto, "horizontal")
+		self.RolPlayer = Object(master, kader, 0, 180, rolPhoto, "vertical")
+		self.CartPlayer = Object(master, kader, 0, 280, cartPhoto, "horizontal")
 
 
 		# Start Gameloop
 
-		allObjects = [VirusPlayer, RolPlayer, CartPlayer]
+		allObjects = [self.VirusPlayer, self.RolPlayer, self.CartPlayer]
 
 		loop_thread = threading.Thread(target=self.Loop, args=(kader,allObjects))
 		loop_thread.start()
@@ -112,14 +118,12 @@ if __name__ == "__main__":
 
 	# GameSetup
 
-        master = tk.Tk()
-        game = Game(master)
-        game.Start()
-        tk.mainloop()
+	master = tk.Tk()
+	game = Game(master)
 
 	def on_message(client, userdata, msg):
-		print(str(msg.payload))
-		# Logic Here
+		#print(str(msg.payload))
+		game.HandleControls(str(msg.payload))
 
 	# MQTT SETUP
 
@@ -127,4 +131,9 @@ if __name__ == "__main__":
 	client.on_message = on_message
 	client.connect(host="anonymous10.ddns.net")
 	client.subscribe("Hardware/console/bediening")
+
+	# Start Loops
+
 	client.loop_start()
+	game.Start()
+	tk.mainloop()
