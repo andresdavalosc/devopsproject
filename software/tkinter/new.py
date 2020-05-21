@@ -9,8 +9,6 @@ class Object:
 
 	def __init__(self, master = None, canvas = None, xpos = None, ypos = None, tkphoto = None, axis = None):
 
-		self.master = master
-		self
 		# Movement Propeties
 		self.speed = 10
 		self.acceleration = 1
@@ -51,6 +49,9 @@ class Game:
 		self.master = master
 
 	def Start(self):
+
+		# Canvas + Title
+
 		self.width = 1920
 		self.height = 990
 
@@ -68,6 +69,9 @@ class Game:
 		Virus = Object(master, kader, 0, 0, self.virus, "horizontal")
 		Rol = Object(master, kader, 0, 180, self.rol, "vertical")
 		Cart = Object(master, kader, 0, 280, self.cart, "horizontal")
+
+
+		# Start Gameloop
 
 		allObjects = [Virus, Rol, Cart]
 
