@@ -53,14 +53,14 @@ class Game:
 	def __init__(self, master = None):
 		self.master = master
 
-	def Start(self):
+	def CreateUI(self):
 
-		# Canvas + Title + Score Text
+                # Create Canvas + Title + Score Text
 
 		self.width = 1920
 		self.height = 990
 
-		tekst = tk.Label(master, text = "Welcome to corona Game") 
+		tekst = tk.Label(master, text = "Welcome to corona Game")
 		tekst.pack()
 		kader = tk.Canvas(master, width=self.width, height=self.height, background="black")
 		kader.pack()
@@ -70,6 +70,15 @@ class Game:
 		score = tk.Label(self.master, text ='0', bg="black", fg="white", font=("Arial", 30))
 		score.pack()
 		score_w = kader.create_window(1000, 50, window=score)
+
+		return kader
+
+
+	def Start(self):
+
+		#Create UI
+
+		kader = self.CreateUI()
 
 		# Create Game Objects
 
@@ -86,10 +95,10 @@ class Game:
 
 		allObjects = [Virus, Rol, Cart]
 
-		x = threading.Thread(target=self.loop, args=(kader, allObjects))
-		x.start()
+		loop_thread = threading.Thread(target=self.Loop, args=(kader,allObjects))
+		loop_thread.start()
 
-	def loop(self, kader, allObjects):
+	def Loop(self, kader ,allObjects):
 		while True:
 			for obj in allObjects:
 				obj.CheckEdges(kader, self.width, self.height)
