@@ -32,8 +32,8 @@ class Object:
 		elif self.moveaxis == "horizontal":
 			canvas.move(self.created_img, 0, vector1)
 
-	def Control(self, pressedbutton)
-		print(pressedbutton)
+	def Control(self, pressedbutton, canvas):
+		#print(pressedbutton)
 		if self.moveaxis == "vertical":
 			if pressedbutton == "UP":
 				canvas.move(self.created_img, 0, +10)
@@ -43,7 +43,7 @@ class Object:
 		elif self.moveaxis == "horizontal":
 			if pressedbutton == "UP":
 				canvas.move(self.created_img, +10, 0)
-			elif pressedbutton == "DN"
+			elif pressedbutton == "DN":
 				canvas.move(self.created_img, -10, 0)
 
 
@@ -90,16 +90,29 @@ class Game:
 
 
 	def HandleControls(self, message):
+				 			# Full Message = b'3UP'
+		playernumber = int(message[2:3])	# Player Number = 3
+		pressedbutton = message [3:5]		# Pressed Button = UP
 		print(message)
+		print(playernumber)
+		print(pressedbutton)
 
-
-
+		if playernumber == 1:
+			print("player 1 moved")
+			self.RolPlayer(pressedbutton, self.kader)
+		elif playernumber == 2:
+			print("player 2 moved")
+			self.CartPlayer(pressedbutton, self.kader)
+		elif playernumber == 3:
+			print("player 3 moved")
+			self.VirusPlayer.Control(pressedbutton, self.kader)
 
 	def Start(self):
 
 		#Create UI
 
 		kader = self.CreateUI()
+		self.kader = kader
 
 		# Create Game Objects
 
