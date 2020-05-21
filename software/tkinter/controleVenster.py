@@ -24,7 +24,7 @@ def timer(count):
            publish.single("Software/controller/timer", payload=i, hostname="anonymous10.ddns.net")
 
 
-timer(20)
+timer(180)
 client = mqtt.Client()
 client.on_message = on_message
 client.connect(host="anonymous10.ddns.net")

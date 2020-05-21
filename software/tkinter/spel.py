@@ -97,6 +97,10 @@ def karretje(message):
      if message == "b'2DN'":
           kader.move(car,35,0)
 
+def Timer(time):
+     timer["text"] = str(time)
+
+tijd = 10
 kar_speed=2
 kar_move_right = True
 wcrol_speed=2
@@ -108,7 +112,7 @@ h = 990
 posy =250
 posx=10
 tekst = tk.Label( venster, text = "Welcome to corona Game")
-tekst.pack()
+#tekst.pack()
 kader = tk.Canvas(venster, width = w, height = h, bg ="black")
 kader.pack()
 foto = tk.PhotoImage( file = "./img/wcrol.png" )
@@ -123,6 +127,12 @@ scoreBoard_w = kader.create_window(1700,50, window=scoreBoard)
 score = tk.Label(venster, text ='0', bg="black", fg="white", font=("Arial", 30))
 score.pack()
 score_w = kader.create_window(1780,50, window=score)
+#timer_l = tk.Label(venster, text="Timer: ", bg="black", fg="white", font=("Arial", 30))
+#timer_l.pack()
+#timer_l_w = kader.create_window(1200, 50, window=timer_l)
+timer = tk.Label(venster, text=" ",bg="black", fg="white", font=("Arial", 50))
+timer.pack()
+timer_w = kader.create_window(960,50,window=timer) 
 BeweegVirus()
 BeweegWcrol()
 BeweegKar()
@@ -140,9 +150,9 @@ def on_message(client, userdata, msg):
       elif str(msg.payload) == "b'2UP'" or str(msg.payload) == "b'2DN'":
           karretje(str(msg.payload))
       else:
-          print(str(tijd))
-          tijd = tk.Label( venster, text = str(msg.payload))
-          tijd.pack()
+          global tijd
+          tijd =  str(msg.payload.decode("utf-8"))
+          Timer(tijd)
 
 client = mqtt.Client()
 client.on_message = on_message
