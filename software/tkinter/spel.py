@@ -9,6 +9,8 @@ class Player:
 
 	def __init__(self, master = None, canvas = None, xpos = None, ypos = None, tkphoto = None, axis = None):
 
+		self.master = master # Needed to create new player by collision
+
 		# Movement Propeties
 		self.speed = 10
 		self.acceleration = 1
@@ -138,6 +140,25 @@ class Game:
 			#print("player 3 moved")
 			self.VirusPlayer.Control(pressedbutton, self.kader)
 
+
+	def HandleCollision(self, state):
+
+		# Remove Roll Player
+		self.allPlayers[1] = None
+
+		# Create New Player
+		virusPhoto = tk.PhotoImage(file="./img/wcrol.png")
+		NewPlayer = Player(self.master, self.kader, 600, 600, virusPhoto, "horizontal")
+		self.allPlayers[1] = NewPlayer
+
+		# Handle Score
+		if state == "cart":
+			print("add Score")
+
+		elif state == "virus":
+			print("do nothing")
+
+
 	def Start(self):
 
 		#Create UI
@@ -151,29 +172,30 @@ class Game:
 		cartPhoto = tk.PhotoImage(file="./img/cart.png")
 		rolPhoto = tk.PhotoImage(file = "./img/wcrol.png")
 
-		self.VirusPlayer = Player(master, kader, 0, 0, virusPhoto, "horizontal")
-		self.RolPlayer = Player(master, kader, 0, 180, rolPhoto, "vertical")
-		self.CartPlayer = Player(master, kader, 0, 280, cartPhoto, "horizontal")
+		self.VirusPlayer = Player(master, kader, 100, 100, virusPhoto, "horizontal")
+		self.RolPlayer = Player(master, kader, 300, 300, rolPhoto, "vertical")
+		self.CartPlayer = Player(master, kader, 600, 600, cartPhoto, "horizontal")
 
 
 		# Start Gameloop
 
-		allPlayers = [self.VirusPlayer, self.RolPlayer, self.CartPlayer]
+		self.allPlayers = [self.VirusPlayer, self.RolPlayer, self.CartPlayer]
 
-		loop_thread = threading.Thread(target=self.Loop, args=(kader,allPlayers))
+		loop_thread = threading.Thread(target=self.Loop, args=(kader,self.allPlayers))
 		loop_thread.start()
 
 	def Loop(self, kader ,allPlayers): # Gameloop
 		while True:
+
 			# Check collision between rol and cart
 
 			collidedWithCart = allPlayers[1].CheckCollision(allPlayers[2], kader)
 			collidedWithVirus = allPlayers[1].CheckCollision(allPlayers[0], kader)
 
 			if collidedWithCart == True:
-				print("cart")
+				self.HandleCollision("cart")
 			if collidedWithVirus == True:
-				print("virus")
+				self.HandleCollision("virus")
 
 			for obj in allPlayers:
 				# Check Collision With Other Players
