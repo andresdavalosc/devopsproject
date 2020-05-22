@@ -30,8 +30,9 @@ pipeline {
     stage('python script') {
       steps {
         node('raspberry pi') {
-          echo " teste"
-          sh " docker container run -it --env="DISPLAY" --net=host dockerimage "
+          dir("/home/pi/Desktop/") {
+            sh " docker container run -it --env="DISPLAY" --net=host dockerimage "
+          }      
         }
       }
     }
