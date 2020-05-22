@@ -27,6 +27,12 @@ pipeline {
           sh " ansible-playbook playbook_container.yml"
       }
     }
+    stage("xhost") {
+      steps{
+          echo "xhost zodat je de display kunt zien..."
+          sh " xhost +"
+      }
+    }
   }
   post {
     success{
