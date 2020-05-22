@@ -8,9 +8,11 @@ import random
 
 class Player:
 
-	def __init__(self, master = None, canvas = None, xpos = None, ypos = None, tkphoto = None, axis = None, playernumber = None):
+	def __init__(self, master = None, canvas = None, xpos = None, ypos = None, tkphoto = None, axis = None, playernumber = None, playertype = None):
 
 		self.master = master # Needed to create new player by collision
+		# Type Of Player (VIRUS, ROL, CART)
+		self.type = playertype
 
 		# Movement Propeties
 		self.speed = 10
@@ -169,7 +171,7 @@ class Game:
 		randomx = random.randint(100,1800)
 		randomy = random.randint(100, 700)
 		virusPhoto = tk.PhotoImage(file="./img/wcrol.png")
-		NewPlayer = Player(self.master, self.kader, randomx, randomy, virusPhoto, "vertical", "2")
+		NewPlayer = Player(self.master, self.kader, randomx, randomy, virusPhoto, "vertical", "2", "virus")
 		self.allPlayers[1] = NewPlayer
 
 		# Handle Score
@@ -196,12 +198,12 @@ class Game:
 		cartPhoto = tk.PhotoImage(file="./img/cart.png")
 		rolPhoto = tk.PhotoImage(file = "./img/wcrol.png")
 
-		self.VirusPlayer = Player(master, kader, 100, 100, virusPhoto, "horizontal", "1")
+		self.VirusPlayer = Player(master, kader, 100, 100, virusPhoto, "horizontal", "1", "virus")
 		self.RolPlayer = Player(master, kader, 300, 300, rolPhoto, "vertical", "2")
-		self.CartPlayer = Player(master, kader, 600, 600, cartPhoto, "horizontal", "3")
+		self.CartPlayer = Player(master, kader, 600, 600, cartPhoto, "horizontal", "3", "cart")
 
 		# Created Dummy Players
-		viruscomputer = Player(master, kader, 800, 800, virusPhoto, "horizontal")
+		viruscomputer = Player(master, kader, 800, 800, virusPhoto, "horizontal", None , "virus")
 
 		# Start Gameloop
 
@@ -213,21 +215,27 @@ class Game:
 	def Loop(self, kader ,allPlayers): # Gameloop
 		while True:
 
-			# Check collision between rol and cart
+			# Check collision between rol +  cart & rol + virus
 
-			collidedWithCart = allPlayers[1].CheckCollision(allPlayers[2], kader)
-			collidedWithVirus = allPlayers[1].CheckCollision(allPlayers[0], kader)
+#			collidedWithCart = allPlayers[1].CheckCollision(allPlayers[2], kader)
+#			collidedWithVirus = allPlayers[1].CheckCollision(allPlayers[0], kader)
+#
+#			if collidedWithCart == True:
+#				self.HandleCollision("cart", kader, allPlayers[1])
+#			if collidedWithVirus == True:
+#				self.HandleCollision("virus", kader, allPlayers[1])
 
-			if collidedWithCart == True:
-				self.HandleCollision("cart", kader, allPlayers[1])
-			if collidedWithVirus == True:
-				self.HandleCollision("virus", kader, allPlayers[1])
+
+			# Check Collision Of Roll With Other Players (Dummy and Real)
+			wcrolPlayer = allPlayers[1]
+			for otherPlayer in allPlayers:
+				if otherPlayer != wcrolPlayer:
+					isCollided = wcrolPlayer.CheckCollision(otherPlayer, kader)
+					if isCollided == True:
+						self.HandleCollision(otherPlayer.type, kader, wcrolPlayer)
+
 
 			for obj in allPlayers:
-				# Check Collision With Other Players
-				#for obj2 in allPlayers:
-				#	if obj != obj2:
-				#		obj.CheckCollision(obj2,kader)
 
 				# Check Collision With Edges Of Screen
 				obj.CheckEdges(kader, self.width, self.height)
