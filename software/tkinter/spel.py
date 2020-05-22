@@ -4,6 +4,7 @@ from time import sleep
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 import tkinter.font as tkFont
+import random
 
 class Player:
 
@@ -149,8 +150,10 @@ class Game:
 
 
 		# Create New Player
+		randomx = random.randint(100,1800)
+		randomy = random.randint(100, 700)
 		virusPhoto = tk.PhotoImage(file="./img/wcrol.png")
-		NewPlayer = Player(self.master, self.kader, 600, 600, virusPhoto, "horizontal")
+		NewPlayer = Player(self.master, self.kader, randomx, randomy, virusPhoto, "vertical")
 		self.allPlayers[1] = NewPlayer
 
 		# Handle Score
