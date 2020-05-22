@@ -27,10 +27,10 @@ pipeline {
           sh " ansible-playbook playbook_container.yml"
       }
     }
-    stage('python script') {
+    stage("python script") {
       steps {
-          node(raspberry pi){
-            sh " docker container run -it --env="DISPLAY" --net=host dockerimage"
+          node("raspberry pi"){
+              sh " docker container run -it --env="DISPLAY" --net=host dockerimage"
           }
       }
     }
