@@ -183,7 +183,7 @@ class Game:
 		randomx = random.randint(100,1800)
 		randomy = random.randint(100, 700)
 		rolPhoto = tk.PhotoImage(file="./img/wcrol.png")
-		self.RolPlayer = Player(self.master, self.kader, randomx, randomy, rolPhoto, "vertical", "2", "virus")
+		self.RolPlayer = Player(self.master, self.kader, randomx, randomy, rolPhoto, "horizontal", "2", "rol")
 		self.allPlayers[1] = self.RolPlayer
 
 		# Handle Score
@@ -225,11 +225,12 @@ class Game:
 		cartPhoto = tk.PhotoImage(file="./img/cart.png")
 		rolPhoto = tk.PhotoImage(file = "./img/wcrol.png")
 
-		self.VirusPlayer = Player(master, kader, 100, 100, virusPhoto, "horizontal", "1", "virus")
-		self.RolPlayer = Player(master, kader, 300, 300, rolPhoto, "vertical", "2")
-		self.CartPlayer = Player(master, kader, 600, 600, cartPhoto, "horizontal", "3", "cart")
+		self.VirusPlayer = Player(master, kader, 100, 100, virusPhoto, "vertical", "3", "virus")
+		self.RolPlayer = Player(master, kader, 300, 300, rolPhoto, "horizontal", "1", "rol")
+		self.CartPlayer = Player(master, kader, 600, 600, cartPhoto, "vertical", "2", "cart")
 
 		# Created Dummy Players
+
 		viruscomputer = Player(master, kader, 800, 800, virusPhoto, "horizontal", None , "virus")
 
 		# Start Gameloop
@@ -263,7 +264,7 @@ class Game:
 				# Keep Moving UP/DOWN or LEFT/RIGHT
 				obj.Move(kader)
 
-			sleep(0.25)
+			sleep(0.5)
 
 
 if __name__ == "__main__":
