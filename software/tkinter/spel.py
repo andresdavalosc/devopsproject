@@ -214,25 +214,17 @@ class Game:
 
 	def Loop(self, kader ,allPlayers): # Gameloop
 		while True:
-
-			# Check collision between rol +  cart & rol + virus
-
-#			collidedWithCart = allPlayers[1].CheckCollision(allPlayers[2], kader)
-#			collidedWithVirus = allPlayers[1].CheckCollision(allPlayers[0], kader)
-#
-#			if collidedWithCart == True:
-#				self.HandleCollision("cart", kader, allPlayers[1])
-#			if collidedWithVirus == True:
-#				self.HandleCollision("virus", kader, allPlayers[1])
-
-
+			isCollided = False
+			typeOfCollidedPlayer = " "
 			# Check Collision Of Roll With Other Players (Dummy and Real)
 			wcrolPlayer = allPlayers[1]
 			for otherPlayer in allPlayers:
-				if otherPlayer != wcrolPlayer:
+				if otherPlayer != wcrolPlayer and isCollided == False:
+					typeOfCollidedPlayer = otherPlayer.type
 					isCollided = wcrolPlayer.CheckCollision(otherPlayer, kader)
-					if isCollided == True:
-						self.HandleCollision(otherPlayer.type, kader, wcrolPlayer)
+
+			if isCollided == True:
+				self.HandleCollision(typeOfCollidedPlayer, kader, wcrolPlayer)
 
 
 			for obj in allPlayers:
