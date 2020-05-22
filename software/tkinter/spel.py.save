@@ -116,7 +116,6 @@ class Player:
 class Game:
 	def __init__(self, master = None):
 		self.master = master
-		self.counter = 0
 
 	def CreateUI(self):
 
@@ -132,13 +131,9 @@ class Game:
 		scoreBoard = tk.Label(self.master, text="Score: ", bg="black", fg="white", font=("Arial", 30))
 		scoreBoard.pack()
 		scoreBoard_w = kader.create_window(900, 50, window=scoreBoard)
-		self.score = tk.Label(self.master, text = str(self.counter), bg="black", fg="white", font=("Arial", 30))
-		self.score.pack()
-		score_w = kader.create_window(1000, 50, window=self.score)
-
-		self.timer = tk.Label(self.master, text = " ", bg="black", fg="white", font=("Arial", 30))
-		self.timer.pack()
-		timer_w = kader.create_window(1000, 900, window=self.timer)
+		score = tk.Label(self.master, text ='0', bg="black", fg="white", font=("Arial", 30))
+		score.pack()
+		score_w = kader.create_window(1000, 50, window=score)
 
 		return kader
 
@@ -162,8 +157,8 @@ class Game:
 			self.VirusPlayer.Control(pressedbutton, self.kader)
 
 
-	def HandleCollision(self, state, canvas, rolplayer):
-		# Remove Roll Player And The Label (If Its Specified) #
+	def HandleCollision(self, state, canvas, rolplayer, scoreCounter):
+				# Remove Roll Player And The Label (If Its Specified) #
 		canvas.delete(rolplayer.created_img)
 		if rolplayer.hasLabel == True:
 			canvas.delete(rolplayer.created_label)
@@ -181,27 +176,14 @@ class Game:
 		# Handle Score
 		if state == "cart":
 			print("Adding Score")
-			self.counter += 1
-		if state == "virus":
+			master.counter += 1
+		elif state == "virus":
 			print("Dont Add Score")
-			self.counter -= 1
-		self.score['text'] = str(self.counter)
-		print(str(self.counter))
+			master.counter -= 1
+		#n_score['text'] = str(master.counter)
+		print(str(master.counter))
 		# Publish Score
 		publish.single("Desktop/score", payload=1, hostname="anonymous10.ddns.net")
-
-	def GameTimer(self, count):
-		for i in range(count, -1, -1):
-			m, s = divmod(i, 60)
-			h, m = divmod(m, 60)
-			time_left = str(h).zfill(2) + ":" + str(m).zfill(2) + ":" + str(s).zfill(2)
-			print(time_left)
-			sleep(1)
-			if i == 0:
-				print("Game over!")
-			print(str(i))
-			self.timer['text'] = str(i)
-			#publish.single("Software/controller/timer", payload=i, hostname="anonymous10.ddns.net")def timer(count):
 
 
 	def Start(self):
@@ -230,8 +212,6 @@ class Game:
 
 		loop_thread = threading.Thread(target=self.Loop, args=(kader,self.allPlayers))
 		loop_thread.start()
-		loop_thread_timer = threading.Thread(target=self.GameTimer, args=[180])
-		loop_thread_timer.start()
 
 	def Loop(self, kader ,allPlayers): # Gameloop
 		while True:
