@@ -1,0 +1,8 @@
+---
+- name: container aanmaken
+  hosts: RPI
+  tasks:
+   - name: docker run spel
+     shell: |
+      xhost +
+      docker container run -it --env="DISPLAY" --net=host dockerimage
