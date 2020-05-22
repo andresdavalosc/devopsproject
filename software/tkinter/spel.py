@@ -114,7 +114,6 @@ class Player:
 				print("Collision Horizontal")
 
 class Game:
-
 	def __init__(self, master = None):
 		self.master = master
 
@@ -158,14 +157,15 @@ class Game:
 			self.VirusPlayer.Control(pressedbutton, self.kader)
 
 
-	def HandleCollision(self, state, canvas, rolplayer):
-
+	def HandleCollision(self, state, canvas, rolplayer, scoreCounter):
 		# Remove Roll Player And The Label (If Its Specified) #
 		canvas.delete(rolplayer.created_img)
 		if rolplayer.hasLabel == True:
 			canvas.delete(rolplayer.created_label)
 
 		self.allPlayers[1] = None
+		self.scoreCounter = scoreCounter
+
 
 		# Create New Player
 		randomx = random.randint(100,1800)
@@ -177,10 +177,12 @@ class Game:
 		# Handle Score
 		if state == "cart":
 			print("Adding Score")
-
+			scoreCounter += 1
 		elif state == "virus":
 			print("Dont Add Score")
-
+			scoreCounter -= 1
+		#n_score['text'] = str(master.counter)
+		print(str(scoreCounter))
 		# Publish Score
 		publish.single("Desktop/score", payload=1, hostname="anonymous10.ddns.net")
 
@@ -214,6 +216,7 @@ class Game:
 
 	def Loop(self, kader ,allPlayers): # Gameloop
 		while True:
+			counter = 0
 			isCollided = False
 			typeOfCollidedPlayer = " "
 			# Check Collision Of Roll With Other Players (Dummy and Real)
@@ -224,7 +227,7 @@ class Game:
 					isCollided = wcrolPlayer.CheckCollision(otherPlayer, kader)
 
 			if isCollided == True:
-				self.HandleCollision(typeOfCollidedPlayer, kader, wcrolPlayer)
+				self.HandleCollision(typeOfCollidedPlayer, kader, wcrolPlayer, counter)
 
 
 			for obj in allPlayers:
