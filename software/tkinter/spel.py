@@ -40,8 +40,12 @@ class Player:
 		vector1 = self.acceleration * self.speed
 
 		if self.moveaxis == "vertical":
+			if not (self.created_label is None): # Only Move Label If Its Created
+				canvas.move(self.created_label, vector1, 0)
 			canvas.move(self.created_img, vector1, 0 )
 		elif self.moveaxis == "horizontal":
+			if not (self.created_label is None): # Only Move Label If Its Created
+				canvas.move(self.created_label, 0, vector1)
 			canvas.move(self.created_img, 0, vector1)
 
 	def GetCreatedImage(self):
@@ -153,15 +157,17 @@ class Game:
 
 	def HandleCollision(self, state, canvas, rolplayer):
 
-		# Remove Roll Player
+		# Remove Roll Player And The Label (If Its Specified) # TODO: if specified
 		canvas.delete(rolplayer.created_img)
+		canvas.delete(rolplayer.created_label)
+
 		self.allPlayers[1] = None
 
 		# Create New Player
 		randomx = random.randint(100,1800)
 		randomy = random.randint(100, 700)
 		virusPhoto = tk.PhotoImage(file="./img/wcrol.png")
-		NewPlayer = Player(self.master, self.kader, randomx, randomy, virusPhoto, "vertical")
+		NewPlayer = Player(self.master, self.kader, randomx, randomy, virusPhoto, "vertical", "2")
 		self.allPlayers[1] = NewPlayer
 
 		# Handle Score
