@@ -182,9 +182,9 @@ class Game:
 		# Create New Player
 		randomx = random.randint(100,1800)
 		randomy = random.randint(100, 700)
-		virusPhoto = tk.PhotoImage(file="./img/wcrol.png")
-		NewPlayer = Player(self.master, self.kader, randomx, randomy, virusPhoto, "vertical", "2", "virus")
-		self.allPlayers[1] = NewPlayer
+		rolPhoto = tk.PhotoImage(file="./img/wcrol.png")
+		self.RolPlayer = Player(self.master, self.kader, randomx, randomy, rolPhoto, "vertical", "2", "virus")
+		self.allPlayers[1] = self.RolPlayer
 
 		# Handle Score
 		if state == "cart":
