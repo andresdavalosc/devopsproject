@@ -8,7 +8,7 @@ import random
 
 class Player:
 
-	def __init__(self, master = None, canvas = None, xpos = None, ypos = None, tkphoto = None, axis = None):
+	def __init__(self, master = None, canvas = None, xpos = None, ypos = None, tkphoto = None, axis = None, playernumber = None):
 
 		self.master = master # Needed to create new player by collision
 
@@ -23,9 +23,18 @@ class Player:
 		# Image On Canvas
 		self.created_img = self.Create(canvas, xpos, ypos, tkphoto)
 
+		# Create Label If Player Number Is Specified
+		if not (playernumber is None):
+			self.created_label = self.CreateLabel(canvas, xpos, ypos, playernumber)
+
+
 	def Create(self, canvas, xpos, ypos, tkphoto):
 		created_img = canvas.create_image(xpos, ypos, anchor = tk.NW, image=tkphoto)
 		return created_img
+
+	def CreateLabel(self,canvas, xpos, ypos, playernumber):
+		created_label = canvas.create_text(xpos, ypos+40,text = playernumber, font=('Times New Roman',20,'bold'), fill='white', anchor = tk.NW)
+		return created_label
 
 	def Move(self, canvas): # Keep moving left/right or up/down
 		vector1 = self.acceleration * self.speed
@@ -148,7 +157,6 @@ class Game:
 		canvas.delete(rolplayer.created_img)
 		self.allPlayers[1] = None
 
-
 		# Create New Player
 		randomx = random.randint(100,1800)
 		randomy = random.randint(100, 700)
@@ -162,6 +170,9 @@ class Game:
 
 		elif state == "virus":
 			print("do nothing")
+
+		# Publish Score
+		publish.single("Desktop/score", payload=1, hostname="anonymous10.ddns.net")
 
 
 	def Start(self):
@@ -177,9 +188,9 @@ class Game:
 		cartPhoto = tk.PhotoImage(file="./img/cart.png")
 		rolPhoto = tk.PhotoImage(file = "./img/wcrol.png")
 
-		self.VirusPlayer = Player(master, kader, 100, 100, virusPhoto, "horizontal")
-		self.RolPlayer = Player(master, kader, 300, 300, rolPhoto, "vertical")
-		self.CartPlayer = Player(master, kader, 600, 600, cartPhoto, "horizontal")
+		self.VirusPlayer = Player(master, kader, 100, 100, virusPhoto, "horizontal", "1")
+		self.RolPlayer = Player(master, kader, 300, 300, rolPhoto, "vertical", "2")
+		self.CartPlayer = Player(master, kader, 600, 600, cartPhoto, "horizontal", "3")
 
 
 		# Start Gameloop
