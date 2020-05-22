@@ -176,10 +176,10 @@ class Game:
 
 		# Handle Score
 		if state == "cart":
-			print("add Score")
+			print("Adding Score")
 
 		elif state == "virus":
-			print("do nothing")
+			print("Dont Add Score")
 
 		# Publish Score
 		publish.single("Desktop/score", payload=1, hostname="anonymous10.ddns.net")
