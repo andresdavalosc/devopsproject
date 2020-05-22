@@ -31,7 +31,7 @@ pipeline {
       steps {
         node('raspberry pi') {
           dir("/home/pi/Desktop/") {
-            sh " docker container run -it --env="DISPLAY" --net=host dockerimage "
+            sh " ls "
           }      
         }
       }
