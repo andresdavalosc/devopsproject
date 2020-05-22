@@ -29,7 +29,9 @@ pipeline {
     }
     stage('python script') {
       steps {
-            sh " declare -x DISPLAY=':10.0' ; nohup docker container run -dit --env='DISPLAY' --net=host dockerimage  "   
+          node('raspberry pi') {
+            sh " ssh pi@192.168.0.136 'declare -x DISPLAY=':10.0' ; nohup docker container run -dit --env='DISPLAY' --net=host dockerimage'  "   
+          } 
       }
     }
   }
