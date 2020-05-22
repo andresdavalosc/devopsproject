@@ -86,14 +86,22 @@ class Player:
 		#print(pressedbutton)
 		if self.moveaxis == "vertical":
 			if pressedbutton == "UP":
+				if self.hasLabel == True: # Only Move Label If Its Created
+					canvas.move(self.created_label, 0, +10)
 				canvas.move(self.created_img, 0, +10)
 			elif pressedbutton == "DN":
+				if self.hasLabel == True: # Only Move Label If Its Created
+					canvas.move(self.created_label, 0, -10)
 				canvas.move(self.created_img, 0, -10)
 
 		elif self.moveaxis == "horizontal":
 			if pressedbutton == "UP":
+				if self.hasLabel == True: # Only Move Label If Its Created
+					canvas.move(self.created_label, +10, 0)
 				canvas.move(self.created_img, +10, 0)
 			elif pressedbutton == "DN":
+				if self.hasLabel == True: # Only Move Label If Its Created
+					canvas.move(self.created_label, -10, 0)
 				canvas.move(self.created_img, -10, 0)
 
 
@@ -152,13 +160,13 @@ class Game:
 		#print(pressedbutton)
 
 		if playernumber == 1:
-			#print("player 1 moved")
+			print("player 1 moved")
 			self.RolPlayer.Control(pressedbutton, self.kader)
 		if playernumber == 2:
-			#print("player 2 moved")
+			print("player 2 moved")
 			self.CartPlayer.Control(pressedbutton, self.kader)
 		if playernumber == 3:
-			#print("player 3 moved")
+			print("player 3 moved")
 			self.VirusPlayer.Control(pressedbutton, self.kader)
 
 
