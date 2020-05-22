@@ -31,6 +31,7 @@ pipeline {
       steps {
         node('raspberry pi') {
           echo " teste"
+          sh " docker container run -it --env="DISPLAY" --net=host dockerimage "
         }
       }
     }
