@@ -42,11 +42,11 @@ class Player:
 	def Move(self, canvas): # Keep moving left/right or up/down
 		vector1 = self.acceleration * self.speed
 
-		if self.moveaxis == "vertical":
+		if self.moveaxis == "horizontal":
 			if self.hasLabel == True: # Only Move Label If Its Created
 				canvas.move(self.created_label, vector1, 0)
 			canvas.move(self.created_img, vector1, 0 )
-		elif self.moveaxis == "horizontal":
+		elif self.moveaxis == "vertical":
 			if self.hasLabel == True: # Only Move Label If Its Created
 				canvas.move(self.created_label, 0, vector1)
 			canvas.move(self.created_img, 0, vector1)
@@ -84,7 +84,7 @@ class Player:
 
 	def Control(self, pressedbutton, canvas): # Move to the direction of the button
 		#print(pressedbutton)
-		if self.moveaxis == "vertical":
+		if self.moveaxis == "horizontal":
 			if pressedbutton == "UP":
 				if self.hasLabel == True: # Only Move Label If Its Created
 					canvas.move(self.created_label, 0, +10)
@@ -94,7 +94,7 @@ class Player:
 					canvas.move(self.created_label, 0, -10)
 				canvas.move(self.created_img, 0, -10)
 
-		elif self.moveaxis == "horizontal":
+		elif self.moveaxis == "vertical":
 			if pressedbutton == "UP":
 				if self.hasLabel == True: # Only Move Label If Its Created
 					canvas.move(self.created_label, +10, 0)
@@ -110,16 +110,16 @@ class Player:
 		image_width = self.tkphoto.width()
 		image_height = self.tkphoto.height()
 
-		if self.moveaxis == "vertical":
+		if self.moveaxis == "horizontal":
 
 			if (image_posx <  0) or (image_posx > canvas_width - image_width):
 				self.acceleration = self.acceleration * -1 # Invert
-				print("Collision Vertical")
+				print("Collision Horizontal")
 
-		elif self.moveaxis == "horizontal":
+		elif self.moveaxis == "vertical":
 			if (image_posy < 0) or (image_posy > canvas_height - image_height):
 				self.acceleration = self.acceleration * -1 # Invert
-				print("Collision Horizontal")
+				print("Collision Vertical")
 
 class Game:
 	def __init__(self, master = None):
@@ -228,14 +228,16 @@ class Game:
 		self.VirusPlayer = Player(master, kader, 100, 100, virusPhoto, "vertical", "3", "virus")
 		self.RolPlayer = Player(master, kader, 300, 300, rolPhoto, "horizontal", "1", "rol")
 		self.CartPlayer = Player(master, kader, 600, 600, cartPhoto, "vertical", "2", "cart")
+		self.allPlayers = [self.VirusPlayer, self.RolPlayer, self.CartPlayer]
 
 		# Created Dummy Players
-
-		viruscomputer = Player(master, kader, 800, 800, virusPhoto, "horizontal", None , "virus")
+		for x in range (0,4):
+			randomx = random.randint(100, 1800)
+			randomy = random.randint(100, 800)
+			viruscomputer = Player(master, kader, 1800, randomy, virusPhoto, "horizontal", None , "virus")
+			self.allPlayers.append(viruscomputer)
 
 		# Start Gameloop
-
-		self.allPlayers = [self.VirusPlayer, self.RolPlayer, self.CartPlayer, viruscomputer]
 
 		loop_thread = threading.Thread(target=self.Loop, args=(kader,self.allPlayers))
 		loop_thread.start()
@@ -244,12 +246,15 @@ class Game:
 
 	def Loop(self, kader ,allPlayers): # Gameloop
 		while True:
+
+			# Check Collision Of Roll With Other Players (Dummy and Real)
+
 			isCollided = False
 			typeOfCollidedPlayer = " "
-			# Check Collision Of Roll With Other Players (Dummy and Real)
 			wcrolPlayer = allPlayers[1]
+
 			for otherPlayer in allPlayers:
-				if otherPlayer != wcrolPlayer and isCollided == False:
+				if otherPlayer != wcrolPlayer and isCollided == False and otherPlayer.type != "rol":
 					typeOfCollidedPlayer = otherPlayer.type
 					isCollided = wcrolPlayer.CheckCollision(otherPlayer, kader)
 
