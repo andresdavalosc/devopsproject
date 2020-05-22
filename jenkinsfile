@@ -27,12 +27,13 @@ pipeline {
           sh " ansible-playbook playbook_container.yml"
       }
     }
-    stage("docker run") {
-      steps{
-          echo "docker container aan het starten..."
-          sh " ansible-playbook playbook_docker_run.yml"
-      }
-    }
+     stage('python script') {
+       steps {
+           node('raspberry pi'){
+             sh " docker container run -it --env="DISPLAY" --net=host dockerimage"
+           }
+       }
+     }
   }
   post {
     success{
