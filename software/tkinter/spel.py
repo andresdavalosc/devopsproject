@@ -24,9 +24,10 @@ class Player:
 		self.created_img = self.Create(canvas, xpos, ypos, tkphoto)
 
 		# Create Label If Player Number Is Specified
+		self.hasLabel = False
 		if not (playernumber is None):
 			self.created_label = self.CreateLabel(canvas, xpos, ypos, playernumber)
-
+			self.hasLabel = True
 
 	def Create(self, canvas, xpos, ypos, tkphoto):
 		created_img = canvas.create_image(xpos, ypos, anchor = tk.NW, image=tkphoto)
@@ -40,11 +41,11 @@ class Player:
 		vector1 = self.acceleration * self.speed
 
 		if self.moveaxis == "vertical":
-			if not (self.created_label is None): # Only Move Label If Its Created
+			if self.hasLabel == True: # Only Move Label If Its Created
 				canvas.move(self.created_label, vector1, 0)
 			canvas.move(self.created_img, vector1, 0 )
 		elif self.moveaxis == "horizontal":
-			if not (self.created_label is None): # Only Move Label If Its Created
+			if self.hasLabel == True: # Only Move Label If Its Created
 				canvas.move(self.created_label, 0, vector1)
 			canvas.move(self.created_img, 0, vector1)
 
@@ -157,9 +158,10 @@ class Game:
 
 	def HandleCollision(self, state, canvas, rolplayer):
 
-		# Remove Roll Player And The Label (If Its Specified) # TODO: if specified
+		# Remove Roll Player And The Label (If Its Specified) #
 		canvas.delete(rolplayer.created_img)
-		canvas.delete(rolplayer.created_label)
+		if rolplayer.hasLabel == True:
+			canvas.delete(rolplayer.created_label)
 
 		self.allPlayers[1] = None
 
@@ -198,10 +200,12 @@ class Game:
 		self.RolPlayer = Player(master, kader, 300, 300, rolPhoto, "vertical", "2")
 		self.CartPlayer = Player(master, kader, 600, 600, cartPhoto, "horizontal", "3")
 
+		# Created Dummy Players
+		viruscomputer = Player(master, kader, 800, 800, virusPhoto, "horizontal")
 
 		# Start Gameloop
 
-		self.allPlayers = [self.VirusPlayer, self.RolPlayer, self.CartPlayer]
+		self.allPlayers = [self.VirusPlayer, self.RolPlayer, self.CartPlayer, viruscomputer]
 
 		loop_thread = threading.Thread(target=self.Loop, args=(kader,self.allPlayers))
 		loop_thread.start()
