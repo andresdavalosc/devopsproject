@@ -141,10 +141,12 @@ class Game:
 			self.VirusPlayer.Control(pressedbutton, self.kader)
 
 
-	def HandleCollision(self, state):
+	def HandleCollision(self, state, canvas, rolplayer):
 
 		# Remove Roll Player
+		canvas.delete(rolplayer.created_img)
 		self.allPlayers[1] = None
+
 
 		# Create New Player
 		virusPhoto = tk.PhotoImage(file="./img/wcrol.png")
@@ -193,9 +195,9 @@ class Game:
 			collidedWithVirus = allPlayers[1].CheckCollision(allPlayers[0], kader)
 
 			if collidedWithCart == True:
-				self.HandleCollision("cart")
+				self.HandleCollision("cart", kader, allPlayers[1])
 			if collidedWithVirus == True:
-				self.HandleCollision("virus")
+				self.HandleCollision("virus", kader, allPlayers[1])
 
 			for obj in allPlayers:
 				# Check Collision With Other Players
