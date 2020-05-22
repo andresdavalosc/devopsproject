@@ -3,6 +3,4 @@
   hosts: RPI
   tasks:
    - name: spel container maken
-     shell: docker run dockerimage
-
-
+     shell: docker create --name spelcontainer dockerimage
