@@ -183,7 +183,7 @@ class Game:
 		randomx = random.randint(100,1800)
 		randomy = random.randint(100, 700)
 		rolPhoto = tk.PhotoImage(file="./img/wcrol.png")
-		self.RolPlayer = Player(self.master, self.kader, randomx, randomy, rolPhoto, "horizontal", "2", "rol")
+		self.RolPlayer = Player(self.master, self.kader, randomx, randomy, rolPhoto, "horizontal", "1", "rol")
 		self.allPlayers[1] = self.RolPlayer
 
 		# Handle Score
@@ -225,17 +225,24 @@ class Game:
 		cartPhoto = tk.PhotoImage(file="./img/cart.png")
 		rolPhoto = tk.PhotoImage(file = "./img/wcrol.png")
 
-		self.VirusPlayer = Player(master, kader, 100, 100, virusPhoto, "vertical", "3", "virus")
-		self.RolPlayer = Player(master, kader, 300, 300, rolPhoto, "horizontal", "1", "rol")
-		self.CartPlayer = Player(master, kader, 600, 600, cartPhoto, "vertical", "2", "cart")
+		self.VirusPlayer = Player(master, kader, 100, 100, virusPhoto, "horizontal", "3", "virus")
+		self.RolPlayer = Player(master, kader, 300, 300, rolPhoto, "vertical", "1", "rol")
+		self.CartPlayer = Player(master, kader, 600, 600, cartPhoto, "horizontal", "2", "cart")
 		self.allPlayers = [self.VirusPlayer, self.RolPlayer, self.CartPlayer]
 
 		# Created Dummy Players
 		for x in range (0,4):
-			randomx = random.randint(100, 1800)
-			randomy = random.randint(100, 800)
-			viruscomputer = Player(master, kader, 1800, randomy, virusPhoto, "horizontal", None , "virus")
+			randomx = random.randint(1350, 1750)
+			randomy = random.randint(50, 750)
+			viruscomputer = Player(master, kader, randomx, randomy, virusPhoto, "horizontal", None , "virus")
 			self.allPlayers.append(viruscomputer)
+
+		for x in range(0,4):
+			randomx = random.randint(100, 200)
+			randomy = random.randint(50, 750)
+			cartcomputer = Player(master, kader, randomx, randomy, cartPhoto, "horizontal", None , "cart")
+			self.allPlayers.append(cartcomputer)
+
 
 		# Start Gameloop
 
