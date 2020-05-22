@@ -27,13 +27,6 @@ pipeline {
           sh " ansible-playbook playbook_container.yml"
       }
     }
-    stage('python script') {
-      steps {
-          node('raspberry pi') {
-            sh " declare -x DISPLAY=':10.0' ; nohup docker container run -dit --env='DISPLAY' --net=host dockerimage  "   
-          } 
-      }
-    }
   }
   post {
     success{
