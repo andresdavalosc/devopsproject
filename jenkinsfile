@@ -27,6 +27,12 @@ pipeline {
           sh " ansible-playbook playbook_container.yml"
       }
     }
+    stage("docker run") {
+      steps{
+          echo "docker container aan het starten..."
+          sh " ansible-playbook playbook_docker_run.yml"
+      }
+    }
   }
   post {
     success{
