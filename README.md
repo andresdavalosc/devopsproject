@@ -1,3 +1,6 @@
-# Raspi-project-game
+# Raspberry Pi Game
 
-Python project
+# Elements
+* MQTT
+* TKINTER
+* Pyhton 3
