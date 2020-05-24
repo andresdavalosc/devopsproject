@@ -15,10 +15,11 @@ class Player:
 		self.type = playertype
 
 		# Movement Propeties
-		self.speed = 10
+		self.speed = 40
 		self.acceleration = 1
 		self.moveaxis = axis
-
+		self.xpos = 0
+		self.ypos = 0
 		# Image File
 		self.tkphoto = tkphoto
 
@@ -37,10 +38,14 @@ class Player:
 
 	def CreateLabel(self,canvas, xpos, ypos, playernumber):
 		created_label = canvas.create_text(xpos, ypos+40,text = playernumber, font=('Times New Roman',20,'bold'), fill='white', anchor = tk.NW)
+		self.hasLabel = True
 		return created_label
 
 	def Move(self, canvas): # Keep moving left/right or up/down
 		vector1 = self.acceleration * self.speed
+		if canvas.coords(self.GetCreatedImage()) != None:
+			self.xpos, self.ypos = canvas.coords(self.GetCreatedImage())
+#		self.ypos = canvas.coords(self.GetCreatedImage())
 
 		if self.moveaxis == "horizontal":
 			if self.hasLabel == True: # Only Move Label If Its Created
@@ -56,6 +61,10 @@ class Player:
 
 	def GetTkPhoto(self):
 		return self.tkphoto
+
+	def SetLabel(self, canvas, labem):
+		self.created_label = self.CreateLabel(canvas, self.xpos, self.ypos, labem)
+		self.hasLabel = True
 
 	def CheckCollision(self, otherplayer, canvas): # Check if the images (rectangles) intersect
 		l1x, l1y = canvas.coords(self.GetCreatedImage())
@@ -94,7 +103,7 @@ class Player:
 					canvas.move(self.created_label, 0, -10)
 				canvas.move(self.created_img, 0, -10)
 
-		elif self.moveaxis == "vertical":
+		if self.moveaxis == "vertical":
 			if pressedbutton == "UP":
 				if self.hasLabel == True: # Only Move Label If Its Created
 					canvas.move(self.created_label, +10, 0)
@@ -172,23 +181,48 @@ class Game:
 
 	def HandleCollision(self, state, canvas, rolplayer):
 		# Remove Roll Player And The Label (If Its Specified) #
-		canvas.delete(rolplayer.created_img)
+#		canvas.delete(rolplayer.created_img)
 
 		# Create New Player
 		randomx = random.randint(100,1800)
 		randomy = random.randint(100, 700)
 		rolPhoto = tk.PhotoImage(file="./img/wcrol.png")
+
+
 		if rolplayer.hasLabel == False:
 			#canvas.delete(rolplayer.created_label)
 			self.allPlayers.remove(rolplayer)
-			newComputerRol = Player(self.master, self.kader, randomx, randomy, rolPhoto, "horizontal", None, "rol")
+			newComputerRol = Player(self.master, self.kader, randomx, randomy, rolPhoto, "vertical", None, "rol")
 			self.allPlayers.append(newComputerRol)
 
-		elif rolplayer.hasLabel == True:
-			canvas.delete(rolplayer.created_label)
-			self.allPlayers[1] = None
-			self.RolPlayer = Player(self.master, self.kader, randomx, randomy, rolPhoto, "horizontal", "1", "rol")
+		elif rolplayer.hasLabel == True: # Algo to get random toiletrol paper
+			newRolPlayerFound = False
+			newRolPlayer = None
+			while newRolPlayerFound == False:
+				numberOfPlayers = 9
+#				numberOfPlayers = numberOfPlayers - 1
+				randomIndex = random.randint(3, numberOfPlayers - 1)
+				if self.allPlayers[randomIndex].type == "rol":
+					newRolPlayerFound = True
+					newRolPlayer = self.allPlayers[randomIndex]
+#					self.allPlayers.remove()
+					print("found")
+			# Give label to new toiletrol player + set as "The Roll player that you can control"
+
+
+#			canvas.delete(rolplayer.created_label)
+			self.allPlayers.remove(rolplayer)
+			print("deleted")
+			newRolPlayer.SetLabel(self.kader, "1")
+			print("label setted")
+			#self.allPlayers[1] = newRolPlayer
+			self.RolPlayer = newRolPlayer
 			self.allPlayers[1] = self.RolPlayer
+
+
+			# new computer
+			newComputerPlayer = Player(self.master, self.kader, randomx, randomy, rolPhoto, "vertical", None, "rol")
+			self.allPlayers.append(newComputerPlayer)
 
 		# Handle Score
 		if state == "cart":
