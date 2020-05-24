@@ -181,7 +181,7 @@ class Game:
 		if rolplayer.hasLabel == False:
 			#canvas.delete(rolplayer.created_label)
 			self.allPlayers.remove(rolplayer)
-			ewComputerRol = Player(self.master, self.kader, randomx, randomy, rolPhoto, "horizontal", None, "rol")
+			newComputerRol = Player(self.master, self.kader, randomx, randomy, rolPhoto, "horizontal", None, "rol")
 			self.allPlayers.append(newComputerRol)
 
 		elif rolplayer.hasLabel == True:
@@ -268,6 +268,16 @@ class Game:
 				if otherPlayer != wcrolPlayer and isCollided == False and otherPlayer.type != "rol":
 					typeOfCollidedPlayer = otherPlayer.type
 					isCollided = wcrolPlayer.CheckCollision(otherPlayer, kader)
+
+
+			for player in allPlayers:
+				for otherplayer in allPlayers:
+					if player != otherplayer and isCollided == False and player.type == "rol" and otherplayer.type != "rol":
+						typeOfCollidedPlayer = otherplayer.type
+						wcrolPlayer = player
+						isCollided = player.CheckCollision(otherplayer, kader)
+						if isCollided == True:
+							print("dummy rol")
 
 			if isCollided == True:
 				self.HandleCollision(typeOfCollidedPlayer, kader, wcrolPlayer)
