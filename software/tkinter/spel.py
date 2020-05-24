@@ -211,6 +211,11 @@ class Game:
 			sleep(1)
 			if i == 0:
 				print("Game over!")
+				self.allPlayers.clear()
+				GameOverText = tk.Label(self.master, text="GAME OVER", bg="black", fg="red", font=("Arial", 60))
+				GameOverText.pack()
+				GameOverWindow = self.kader.create_window(900, 450, window=GameOverText)
+
 			print(str(i))
 			self.timer['text'] = str(i)
 			#publish.single("Software/controller/timer", payload=i, hostname="anonymous10.ddns.net")def timer(count):
@@ -252,7 +257,7 @@ class Game:
 
 		loop_thread = threading.Thread(target=self.Loop, args=(kader,self.allPlayers))
 		loop_thread.start()
-		loop_thread_timer = threading.Thread(target=self.GameTimer, args=[180])
+		loop_thread_timer = threading.Thread(target=self.GameTimer, args=[45])
 		loop_thread_timer.start()
 
 	def Loop(self, kader ,allPlayers): # Gameloop
@@ -290,7 +295,7 @@ class Game:
 				# Keep Moving UP/DOWN or LEFT/RIGHT
 				obj.Move(kader)
 
-			sleep(0.4)
+			sleep(0.3)
 
 
 if __name__ == "__main__":
