@@ -111,11 +111,6 @@ class Player:
 		image_height = self.tkphoto.height()
 
 		if self.moveaxis == "horizontal":
-			if self.type == "cart":
-				if (image_posx < 850) or (image_posx > 900):
-					self.acceleration = self.acceleration * -1 # Invert
-					print("done")
-
 
 			if (image_posx <  0) or (image_posx > canvas_width - image_width):
 				self.acceleration = self.acceleration * -1 # Invert
@@ -180,7 +175,7 @@ class Game:
 		canvas.delete(rolplayer.created_img)
 
 		# Create New Player
-		randomx = random.randint(100,1800)
+		randomx = random.randint(100, 200)
 		randomy = random.randint(100, 700)
 		rolPhoto = tk.PhotoImage(file="./img/wcrol.png")
 		if rolplayer.hasLabel == False:
@@ -236,7 +231,7 @@ class Game:
 
 		self.VirusPlayer = Player(master, kader, 1700, 450, virusPhoto, "horizontal", "3", "virus")
 		self.RolPlayer = Player(master, kader, 200, 450, rolPhoto, "horizontal", "1", "rol")
-		self.CartPlayer = Player(master, kader, 900, 450, cartPhoto, "horizontal", "2", "cart")
+		self.CartPlayer = Player(master, kader, 900, 450, cartPhoto, "vertical", "2", "cart")
 		self.allPlayers = [self.VirusPlayer, self.RolPlayer, self.CartPlayer]
 
 		# Created Dummy Players
@@ -246,11 +241,11 @@ class Game:
 			viruscomputer = Player(master, kader, randomx, randomy, virusPhoto, "horizontal", None , "virus")
 			self.allPlayers.append(viruscomputer)
 
-		for x in range(0,3):
-			randomx = random.randint(200, 400)
-			randomy = random.randint(50, 900)
-			rolcomputer = Player(master, kader, randomx, randomy, rolPhoto, "horizontal", None , "rol")
-			self.allPlayers.append(rolcomputer)
+#		for x in range(0,3):
+#			randomx = random.randint(200, 400)
+#			randomy = random.randint(50, 900)
+#			rolcomputer = Player(master, kader, randomx, randomy, rolPhoto, "vertical", None , "rol")
+#			self.allPlayers.append(rolcomputer)
 
 
 		# Start Gameloop
@@ -295,7 +290,7 @@ class Game:
 				# Keep Moving UP/DOWN or LEFT/RIGHT
 				obj.Move(kader)
 
-			sleep(0.5)
+			sleep(0.4)
 
 
 if __name__ == "__main__":
