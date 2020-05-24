@@ -16,7 +16,7 @@ class Player:
 
 		# Movement Propeties
 		self.speed = 10
-		self.acceleration = 1
+		self.acceleration = 2
 		self.moveaxis = axis
 
 		# Image File
