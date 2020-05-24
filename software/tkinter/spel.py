@@ -173,18 +173,22 @@ class Game:
 	def HandleCollision(self, state, canvas, rolplayer):
 		# Remove Roll Player And The Label (If Its Specified) #
 		canvas.delete(rolplayer.created_img)
-		if rolplayer.hasLabel == True:
-			canvas.delete(rolplayer.created_label)
-
-		self.allPlayers[1] = None
-
 
 		# Create New Player
 		randomx = random.randint(100,1800)
 		randomy = random.randint(100, 700)
 		rolPhoto = tk.PhotoImage(file="./img/wcrol.png")
-		self.RolPlayer = Player(self.master, self.kader, randomx, randomy, rolPhoto, "horizontal", "1", "rol")
-		self.allPlayers[1] = self.RolPlayer
+		if rolplayer.hasLabel == False:
+			#canvas.delete(rolplayer.created_label)
+			self.allPlayers.remove(rolplayer)
+			ewComputerRol = Player(self.master, self.kader, randomx, randomy, rolPhoto, "horizontal", None, "rol")
+			self.allPlayers.append(newComputerRol)
+
+		elif rolplayer.hasLabel == True:
+			canvas.delete(rolplayer.created_label)
+			self.allPlayers[1] = None
+			self.RolPlayer = Player(self.master, self.kader, randomx, randomy, rolPhoto, "horizontal", "1", "rol")
+			self.allPlayers[1] = self.RolPlayer
 
 		# Handle Score
 		if state == "cart":
@@ -238,9 +242,9 @@ class Game:
 			self.allPlayers.append(viruscomputer)
 
 		for x in range(0,4):
-			randomx = random.randint(100, 200)
+			randomx = random.randint(100, 1700)
 			randomy = random.randint(50, 750)
-			cartcomputer = Player(master, kader, randomx, randomy, cartPhoto, "horizontal", None , "cart")
+			cartcomputer = Player(master, kader, randomx, randomy, rolPhoto, "vertical", None , "rol")
 			self.allPlayers.append(cartcomputer)
 
 
