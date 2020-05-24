@@ -90,7 +90,7 @@ class Menu:
        Kar.CreateButton(200, 200, self.karImg, 900, 570)
 
        MenuTimer = CountdownTimer(master)
-       MenuTimer.Countdown(15)
+       MenuTimer.Countdown(30)
 
        def on_closing():
          global a
