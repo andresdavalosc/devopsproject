@@ -242,8 +242,8 @@ class Game:
 			self.allPlayers.append(viruscomputer)
 
 		for x in range(0,3):
-			randomx = random.randint(200, 300)
-			randomy = random.randint(50, 750)
+			randomx = random.randint(200, 400)
+			randomy = random.randint(50, 900)
 			rolcomputer = Player(master, kader, randomx, randomy, rolPhoto, "vertical", None , "rol")
 			self.allPlayers.append(rolcomputer)
 
