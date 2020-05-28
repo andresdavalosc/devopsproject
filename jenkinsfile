@@ -33,9 +33,9 @@ pipeline {
           sh " ansible-playbook playbook_container.yml"
       }
     }
-    stage("xhost + start game ") {
+    stage("start spel ") {
       steps{
-          echo "xhost zodat je de display kunt zien..."
+          echo "display openen..."
           sh " ssh pi@192.168.0.136 'declare -x DISPLAY=':10.0' ; nohup docker container run -dit --env='DISPLAY' --net=host dockerimage'"
           
       }
@@ -43,7 +43,7 @@ pipeline {
   }
   post {
     success{
-      echo "file succesvol gestart"
+      echo "documenten en spel succesvol gestart"
     }
     failure{
       echo "ERROR in de file"
