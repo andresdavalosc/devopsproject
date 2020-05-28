@@ -7,6 +7,12 @@ pipeline {
             sh " ansible-playbook playbook.yml"
       }
     }
+    stage("docker installatie"){
+        steps{
+            echo "pingen naar de slave..."
+            sh " ansible-playbook playbook_dockerinstall.yml"
+      }
+    }
     stage("image") {
       steps{
           echo "image aan het maken..."
