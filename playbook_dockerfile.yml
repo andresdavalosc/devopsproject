@@ -1,7 +1,6 @@
 ---
 - name: installeren van lib
   hosts: RPI
-
   tasks:
    - name: spel kopieren
      copy:
@@ -10,13 +9,10 @@
 
    - name: dockerfile kopieren
      copy:
-      src: /home/andres/Desktop/Dockerfile
+      src: /home/andres/Desktop/workspace/Devops-project-rpi/Dockerfile
       dest: /home/pi/Desktop/
 
    - name: image aanmaken
-     #docker_image:
-       #path: /home/andres/Desktop
-       #name: devopsproject
      shell: |
       cd /home/pi/Desktop/
       docker build -t dockerimage .
