@@ -1,0 +1,7 @@
+---
+ - hosts: RPI
+   remote_user: pi
+   tasks:
+   - set_fact:
+      ansible_ssh_pass=linux123
+
