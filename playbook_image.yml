@@ -1,8 +1,5 @@
 ---
 - hosts: RPI
-  become: true
   tasks:
    - name: pull python
      shell: docker pull python:3
-
-
