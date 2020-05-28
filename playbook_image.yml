@@ -1,0 +1,5 @@
+---
+- hosts: RPI
+  tasks:
+   - name: pull python
+     shell: docker pull python:3

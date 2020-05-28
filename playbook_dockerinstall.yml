@@ -1,0 +1,12 @@
+---
+- hosts: RPI
+  become: true
+  tasks:
+   - name: docker install
+     shell: |
+        curl -fsSL https://get.docker.com -o get-docker.sh
+        sudo sh get-docker.sh
+   - name: sudo rechten
+     shell: |
+        sudo usermod -aG docker pi
+
