@@ -4,5 +4,4 @@
    tasks:
    - set_fact:
       ansible_ssh_pass=linux123
-   - ping:
 
